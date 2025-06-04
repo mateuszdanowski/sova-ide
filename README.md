@@ -45,6 +45,16 @@ Docelowo SOVA ma służyć jako fundament dla kolejnych rozszerzeń tworzonych p
 3. Decyzja architektoniczna w interakcji plugin <-> baza danych
 4. Decyzja - Czy pluginy mogą być tworzone w dowolnym języku programowania?
 
+### Zadania na tydzień 4 (10.06):
+1. Decyzja, czy narzędzie `SOVA IDE` ma być:
+   + osobnym narzędziem, niezależnym, tworzonym od zera
+   + pluginem jednego ze znanych IDE (IntelliJ, VS Code)
+2. Harmonogram prac - z terminem złożenia pracy 15 września 2025r.
+3. Decyzja architektoniczna co do zapisywania danych przez pluginy
+4. Analiza dwóch dodatkowych modeli rozszerzalności
+   + Jenkins
+   + VS Code
+
 ---
 
 # Schemat Bazy Danych 
