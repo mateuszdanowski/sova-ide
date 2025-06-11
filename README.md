@@ -1,5 +1,5 @@
 # sova-ide
-Software Optimization, Visualization and Analysis IDE
+Software Optimization, Visualization and Analysis Integrated Discovery Environment
 
 ## Cel projektu
 
