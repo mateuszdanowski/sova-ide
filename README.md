@@ -50,10 +50,14 @@ Docelowo SOVA ma służyć jako fundament dla kolejnych rozszerzeń tworzonych p
    + osobnym narzędziem, niezależnym, tworzonym od zera
    + pluginem jednego ze znanych IDE (IntelliJ, VS Code)
 2. Harmonogram prac - z terminem złożenia pracy 15 września 2025r.
-3. Decyzja architektoniczna co do zapisywania danych przez pluginy
-4. Analiza dwóch dodatkowych modeli rozszerzalności
+3. [przeniesione na przyszłość] Decyzja architektoniczna co do zapisywania danych przez pluginy
+4. [przeniesione na przyszłość] Analiza dwóch dodatkowych modeli rozszerzalności
    + Jenkins
    + VS Code
+
+#### Realizacja zadań
+1. `SOVA IDE` osobnym narzędziem, niezależnym, tworzonym od zera
+2. Omówiony harmonogram prac dostępny w pliku `harmonogram-prac.md`
 
 ---
 
