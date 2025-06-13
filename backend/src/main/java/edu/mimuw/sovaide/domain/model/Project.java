@@ -1,4 +1,4 @@
-package edu.mimuw.sovaide.domain;
+package edu.mimuw.sovaide.domain.model;
 
 import static com.fasterxml.jackson.annotation.JsonInclude.Include.ALWAYS;
 

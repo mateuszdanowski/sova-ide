@@ -20,8 +20,8 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 
-import edu.mimuw.sovaide.domain.Project;
-import edu.mimuw.sovaide.domain.graph.GraphDTO;
+import edu.mimuw.sovaide.domain.model.Project;
+import edu.mimuw.sovaide.domain.legacy.graph.GraphDTO;
 import edu.mimuw.sovaide.service.ProjectService;
 import lombok.RequiredArgsConstructor;
 

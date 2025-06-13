@@ -1,4 +1,4 @@
-package edu.mimuw.sovaide.domain.graph;
+package edu.mimuw.sovaide.domain.legacy.graph;
 
 import org.springframework.lang.Nullable;
 

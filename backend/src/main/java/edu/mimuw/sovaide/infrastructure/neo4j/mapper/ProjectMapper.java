@@ -1,6 +1,6 @@
 package edu.mimuw.sovaide.infrastructure.neo4j.mapper;
 
-import edu.mimuw.sovaide.domain.Project;
+import edu.mimuw.sovaide.domain.model.Project;
 import edu.mimuw.sovaide.infrastructure.neo4j.entity.Neo4jProject;
 
 public class ProjectMapper {

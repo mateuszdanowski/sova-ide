@@ -35,11 +35,11 @@ import com.github.javaparser.ast.CompilationUnit;
 import com.github.javaparser.ast.nodeTypes.NodeWithName;
 import com.github.javaparser.ast.nodeTypes.NodeWithSimpleName;
 
-import edu.mimuw.sovaide.domain.JavaClass;
-import edu.mimuw.sovaide.domain.Project;
-import edu.mimuw.sovaide.domain.graph.EdgeDTO;
-import edu.mimuw.sovaide.domain.graph.GraphDTO;
-import edu.mimuw.sovaide.domain.graph.VertexDTO;
+import edu.mimuw.sovaide.domain.legacy.JavaClass;
+import edu.mimuw.sovaide.domain.model.Project;
+import edu.mimuw.sovaide.domain.legacy.graph.EdgeDTO;
+import edu.mimuw.sovaide.domain.legacy.graph.GraphDTO;
+import edu.mimuw.sovaide.domain.legacy.graph.VertexDTO;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 

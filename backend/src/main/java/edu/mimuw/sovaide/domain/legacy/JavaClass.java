@@ -1,4 +1,4 @@
-package edu.mimuw.sovaide.domain;
+package edu.mimuw.sovaide.domain.legacy;
 
 import java.util.List;
 

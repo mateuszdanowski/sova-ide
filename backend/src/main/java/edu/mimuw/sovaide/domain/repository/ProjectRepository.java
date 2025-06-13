@@ -3,7 +3,7 @@ package edu.mimuw.sovaide.domain.repository;
 import java.util.List;
 import java.util.Optional;
 
-import edu.mimuw.sovaide.domain.Project;
+import edu.mimuw.sovaide.domain.model.Project;
 
 public interface ProjectRepository {
 	Optional<Project> findById(String id);

@@ -16,8 +16,8 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
-import edu.mimuw.sovaide.domain.Project;
-import edu.mimuw.sovaide.domain.graph.GraphDTO;
+import edu.mimuw.sovaide.domain.model.Project;
+import edu.mimuw.sovaide.domain.legacy.graph.GraphDTO;
 import edu.mimuw.sovaide.domain.repository.ProjectRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
