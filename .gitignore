@@ -1,0 +1,8 @@
+# MacOS
+.DS_Store
+
+# IntelliJ stuff
+.idea
+*.iml
+*/overlays/
+/.dccache
