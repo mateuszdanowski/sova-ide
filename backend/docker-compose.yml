@@ -1,4 +1,11 @@
 services:
+  graph-db:
+    image: neo4j:5.26.8
+    ports:
+      - "7687:7687" # for Neo4j driver
+      - "7474:7474" # for Neo4j browser
+    environment:
+      - NEO4J_AUTH=neo4j/password
   db:
     image: postgres:17.4
     container_name: sova-postgres-db
