@@ -7,29 +7,30 @@ import org.springframework.data.neo4j.core.schema.Id;
 import org.springframework.data.neo4j.core.schema.Node;
 import org.springframework.data.neo4j.core.schema.Relationship;
 
+import edu.mimuw.sovaide.domain.model.EntityKind;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-@Node("Project")
+@Node("Entity")
 @Data
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-public class Neo4jProject {
+public class Neo4jEntity {
     @Id
     @GeneratedValue
     private String id;
     private String name;
-    private String language;
+    private EntityKind kind;
+    private String content;
     @Relationship(type = "HAS", direction = Relationship.Direction.OUTGOING)
-    private List<Neo4jFile> files;
-
-    // moved from legacy Project entity
-    private String fileUrl;
-    @Builder.Default private String status = "NOT ANALYZED";
-    private Long noOfClasses;
-    private Long noOfImports;
-    private Long avgLinesOfCode;
+    private List<Neo4jMember> members;
+    @Relationship(type = "IMPLEMENTS", direction = Relationship.Direction.OUTGOING)
+    private List<Neo4jEntity> implementsEntities;
+    @Relationship(type = "EXTENDS", direction = Relationship.Direction.OUTGOING)
+    private List<Neo4jEntity> extendsEntities;
+    @Relationship(type = "USES", direction = Relationship.Direction.OUTGOING)
+    private List<Neo4jEntity> usesEntities;
 }

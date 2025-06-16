@@ -2,6 +2,8 @@ package edu.mimuw.sovaide.domain.model;
 
 import static com.fasterxml.jackson.annotation.JsonInclude.Include.ALWAYS;
 
+import java.util.List;
+
 import com.fasterxml.jackson.annotation.JsonInclude;
 
 import lombok.AllArgsConstructor;
@@ -22,4 +24,5 @@ public class Project {
 	private Long noOfClasses;
 	private Long noOfImports;
 	private Long avgLinesOfCode;
+	private List<File> files;
 }
