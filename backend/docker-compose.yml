@@ -6,18 +6,3 @@ services:
       - "7474:7474" # for Neo4j browser
     environment:
       - NEO4J_AUTH=neo4j/password
-  db:
-    image: postgres:17.4
-    container_name: sova-postgres-db
-    restart: always
-    ports:
-      - "5332:5432"
-    environment:
-      POSTGRES_USER: root
-      POSTGRES_PASSWORD: password
-      POSTGRES_DB: sova
-    volumes:
-      - pgdata:/var/lib/postgresql/data
-      - ./init:/docker-entrypoint-initdb.d  # for custom scripts
-volumes:
-  pgdata:

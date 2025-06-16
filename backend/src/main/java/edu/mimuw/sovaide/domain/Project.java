@@ -2,30 +2,26 @@ package edu.mimuw.sovaide.domain;
 
 import static com.fasterxml.jackson.annotation.JsonInclude.Include.ALWAYS;
 
-import org.hibernate.annotations.UuidGenerator;
+import org.springframework.data.neo4j.core.schema.GeneratedValue;
+import org.springframework.data.neo4j.core.schema.Id;
+import org.springframework.data.neo4j.core.schema.Node;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
 
-import jakarta.persistence.Column;
-import jakarta.persistence.Entity;
-import jakarta.persistence.Id;
-import jakarta.persistence.Table;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
-@Entity
+@Node("Project")
 @Getter
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
 @JsonInclude(ALWAYS)
-@Table(name = "projects")
 public class Project {
 	@Id
-	@UuidGenerator
-	@Column(name = "id", unique = true, updatable = false)
+	@GeneratedValue
 	private String id;
 	private String name;
 	private String fileUrl;

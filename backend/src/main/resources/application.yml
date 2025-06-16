@@ -1,21 +1,11 @@
 spring:
   application:
     name: sova-ide
-  datasource:
-    url: jdbc:postgresql://localhost:5332/sova
-    username: root
-    password: password
-  jpa:
-    hibernate:
-      ddl-auto: update
-    show-sql: true
-    generate-ddl: true
-    database-platform: org.hibernate.dialect.PostgreSQLInnoDBDialect
-    properties:
-      hibernate:
-        globally_quoted_identifiers: true
-        dialect: org.hibernate.dialect.PostgreSQLDialect
-        format_sql: true
+  neo4j:
+    uri: bolt://localhost:7687
+    authentication:
+      username: neo4j
+      password: password
   servlet:
     multipart:
       enabled: true
@@ -31,7 +21,3 @@ server:
     path: /error
     whitelabel:
         enabled: false
-neo4j:
-  uri: bolt://localhost:7687
-  username: neo4j
-  password: password
