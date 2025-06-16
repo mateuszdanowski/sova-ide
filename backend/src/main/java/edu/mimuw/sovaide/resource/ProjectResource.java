@@ -6,8 +6,8 @@ import java.io.IOException;
 import java.net.URI;
 import java.nio.file.Files;
 import java.nio.file.Paths;
+import java.util.List;
 
-import org.springframework.data.domain.Page;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -37,10 +37,8 @@ public class ProjectResource {
 	}
 
 	@GetMapping
-	public ResponseEntity<Page<Project>> getProjects(
-			@RequestParam(value = "page", defaultValue = "0") int page,
-			@RequestParam(value = "size", defaultValue = "12") int size) {
-		return ResponseEntity.ok().body(projectService.getAllProjects(page, size));
+	public ResponseEntity<List<Project>> getProjects() {
+		return ResponseEntity.ok().body(projectService.getAllProjects());
 	}
 
 	@GetMapping("/{id}")

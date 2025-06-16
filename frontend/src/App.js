@@ -9,7 +9,6 @@ function App() {
   const modalRef = useRef();
   const fileRef = useRef();
   const [data, setData] = useState({});
-  const [currentPage, setCurrentPage] = useState(0);
   const [file, setFile] = useState(undefined);
   const [values, setValues] = useState({
     name: '',
@@ -21,11 +20,11 @@ function App() {
   });
 
 
-  const getAllProjects = async (page = 0, size = 12) => {
+  const getAllProjects = async () => {
     try {
-      setCurrentPage(page)
-      const { data } = await getProjects(page, size);
+      const { data } = await getProjects();
       setData(data);
+      console.log(data);
     } catch (error) {
       console.log(error);
     }
@@ -77,12 +76,12 @@ function App() {
 
   return (
     <>
-      <Header toggleModal={toggleModal} nbOfProjects={data.totalElements} />
+      <Header toggleModal={toggleModal} nbOfProjects={data.length} />
       <main className='main'>
         <div className='container'>
           <Routes>
             <Route path ='/' element={<Navigate to={'/projects'}/>} />
-            <Route path="/projects" element={<ProjectList data={data} currentPage={currentPage} getAllProjects={getAllProjects}/>}/>
+            <Route path="/projects" element={<ProjectList data={data} getAllProjects={getAllProjects}/>}/>
             <Route path="/projects/:id" element={<ProjectDetail />}/>
           </Routes>
         </div>

@@ -6,13 +6,11 @@ import static java.nio.file.StandardCopyOption.REPLACE_EXISTING;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.util.List;
 import java.util.Optional;
 import java.util.function.BiFunction;
 import java.util.function.Function;
 
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.PageRequest;
-import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
@@ -20,7 +18,7 @@ import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import edu.mimuw.sovaide.domain.Project;
 import edu.mimuw.sovaide.domain.graph.GraphDTO;
-import edu.mimuw.sovaide.repository.ProjectRepository;
+import edu.mimuw.sovaide.domain.repository.ProjectRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 
@@ -33,8 +31,8 @@ public class ProjectService {
 	private final AnalysisService analysisService;
 	private final GraphBuildingService graphBuildingService;
 
-	public Page<Project> getAllProjects(int page, int size) {
-		return repository.findAll(PageRequest.of(page, size, Sort.by("name")));
+	public List<Project> getAllProjects() {
+		return repository.findAll();
 	}
 
 	public Project getProject(String id) {

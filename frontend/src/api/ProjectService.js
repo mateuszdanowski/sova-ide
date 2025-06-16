@@ -6,8 +6,8 @@ export async function saveProject(project) {
     return await axios.post(API_URL, project);
 }
 
-export async function getProjects(page = 0, size = 12) {
-    return await axios.get(`${API_URL}?page=${page}&size=${size}`);
+export async function getProjects() {
+    return await axios.get(`${API_URL}`);
 }
 
 export async function getProject(id) {

@@ -23,7 +23,7 @@ import com.github.javaparser.ast.body.ClassOrInterfaceDeclaration;
 
 import edu.mimuw.sovaide.domain.JavaClass;
 import edu.mimuw.sovaide.domain.Project;
-import edu.mimuw.sovaide.repository.ProjectRepository;
+import edu.mimuw.sovaide.domain.repository.ProjectRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 
