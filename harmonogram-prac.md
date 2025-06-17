@@ -3,15 +3,18 @@
 ## PoC backendu SOVA IDE (2 tygodnie)  
 **11 – 25 czerwca**
 
-- Działająca baza danych Neo4j z prostym schematem
-  + Szkic API jako fasada Neo4j (zabezpieczenie przed zmianą technologii bazy danych)
-  + Abstrakcje na Neo4j – krawędź i wierzchołek
+- ✅ Działająca baza danych Neo4j z prostym schematem
+  + ✅ Szkic API jako fasada Neo4j (zabezpieczenie przed zmianą technologii bazy danych)
+  + ✅ Abstrakcje na Neo4j – krawędź i wierzchołek
 - Szkic API dla pluginów (extension points + dostęp do bazy)
   + Specyfikacja minimalnego kontraktu pluginu
 - System ładujący pluginy (pliki `.jar`)
-  + Rejestracja pustego pluginu
+  + ✅ Rejestracja pustego pluginu
 - Plugin parsera JAR (zapis do bazy)
+  - ✅ Logika parsowania
+  - ✅ Logika zapisywania w bazie
 - Output plugin – liczenie klas (output w konsoli)
+- ✅ Dodatkowo: Przemyślenie sposobu udostępniania API głównej aplikacji dla pluginów (np. przez GitHub Packages jako alternatywa dla Maven Central)
 
 ### Pisanie (1 tydzień)  
 **25 czerwca – 2 lipca**
