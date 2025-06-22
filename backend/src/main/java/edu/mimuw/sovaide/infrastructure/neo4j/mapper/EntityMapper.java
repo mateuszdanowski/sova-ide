@@ -1,7 +1,5 @@
 package edu.mimuw.sovaide.infrastructure.neo4j.mapper;
 
-import java.util.stream.Collectors;
-
 import edu.mimuw.sovaide.domain.model.Entity;
 import edu.mimuw.sovaide.infrastructure.neo4j.entity.Neo4jEntity;
 
@@ -17,7 +15,7 @@ public class EntityMapper {
             neo4jEntity.getMembers() == null ? null :
                 neo4jEntity.getMembers().stream()
                     .map(MemberMapper::toDomain)
-                    .collect(Collectors.toList())
+                    .toList()
         );
         // Relationships like implementsEntities, extendsEntities, usesEntities can be mapped as needed
         return entity;
@@ -34,7 +32,7 @@ public class EntityMapper {
                 entity.getMembers() == null ? null :
                     entity.getMembers().stream()
                         .map(MemberMapper::fromDomain)
-                        .collect(Collectors.toList())
+                        .toList()
             )
             // Relationships like implementsEntities, extendsEntities, usesEntities can be mapped as needed
             .build();

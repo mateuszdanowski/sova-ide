@@ -1,7 +1,5 @@
 package edu.mimuw.sovaide.infrastructure.neo4j.mapper;
 
-import java.util.stream.Collectors;
-
 import edu.mimuw.sovaide.domain.model.Project;
 import edu.mimuw.sovaide.infrastructure.neo4j.entity.Neo4jProject;
 
@@ -20,7 +18,7 @@ public class ProjectMapper {
             neo4jProject.getFiles() == null ? null :
                 neo4jProject.getFiles().stream()
                     .map(FileMapper::toDomain)
-                    .collect(Collectors.toList())
+                    .toList()
         );
         return project;
     }
@@ -40,7 +38,7 @@ public class ProjectMapper {
                 project.getFiles() == null ? null :
                     project.getFiles().stream()
                         .map(FileMapper::fromDomain)
-                        .collect(Collectors.toList())
+                        .toList()
             )
             .build();
     }
