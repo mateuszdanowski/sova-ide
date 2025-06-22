@@ -6,6 +6,8 @@
 - ✅ Działająca baza danych Neo4j z prostym schematem
   + ✅ Szkic API jako fasada Neo4j (zabezpieczenie przed zmianą technologii bazy danych)
   + ✅ Abstrakcje na Neo4j – krawędź i wierzchołek
+  + rozszerzenie schematu z relacjami między wierzchołkami
+  + Cypher - jak podstawowe rzeczy wyciągać (relacje itd)
 - Szkic API dla pluginów (extension points + dostęp do bazy)
   + Specyfikacja minimalnego kontraktu pluginu
 - System ładujący pluginy (pliki `.jar`)
@@ -19,10 +21,11 @@
 ### Pisanie (1 tydzień)  
 **25 czerwca – 2 lipca**
 
-- Szkic struktury pracy magisterskiej (LaTeX)
+- [ready] Szkic struktury pracy magisterskiej (LaTeX)
 - Opis architektury backendu + diagramy
-- Schemat danych w bazie + uzasadnienie wyboru grafowej bazy danych
-- Zbieranie literatury (BiBTeX)
+- [ready] Schemat danych w bazie + uzasadnienie wyboru grafowej bazy danych
+  + będzie wymienne np. na SQLa
+- [ready] Zbieranie literatury (BiBTeX)
 
 ---
 
