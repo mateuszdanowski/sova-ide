@@ -1,1 +1,3 @@
 rootProject.name = 'sova-ide'
+
+include 'app-core'
