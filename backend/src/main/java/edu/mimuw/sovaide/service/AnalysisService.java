@@ -47,27 +47,27 @@ public class AnalysisService {
 			jarParseService.parse(project);
 			log.info("Parsing into neo4j finished for project: {}", project.getId());
 		});
-		taskExecutor.execute(() -> {
-			log.info("Running background analysis for project: {}", project.getId());
-			long classCount = countMetric(this::countClasses, project);
-
-			long importsCount = countMetric(this::countImports, project);
-
-			List<JavaClass> classes = graphBuildingService.fetchClasses(project);
-
-			// create a graph from the classes
-			graphBuildingService.buildGraph(project.getId(), classes);
-
-			Long avgLinesOfCode = countAvgLinesOfCode(classes);
-
-			project.setNoOfClasses(classCount);
-			project.setNoOfImports(importsCount);
-			project.setAvgLinesOfCode(avgLinesOfCode);
-			project.setStatus("ANALYZED");
-			repository.save(project);
-
-			log.info("Analysis finished for project: {}", project.getId());
-		});
+//		taskExecutor.execute(() -> {
+//			log.info("Running background analysis for project: {}", project.getId());
+//			long classCount = countMetric(this::countClasses, project);
+//
+//			long importsCount = countMetric(this::countImports, project);
+//
+//			List<JavaClass> classes = graphBuildingService.fetchClasses(project);
+//
+//			// create a graph from the classes
+//			graphBuildingService.buildGraph(project.getId(), classes);
+//
+//			Long avgLinesOfCode = countAvgLinesOfCode(classes);
+//
+//			project.setNoOfClasses(classCount);
+//			project.setNoOfImports(importsCount);
+//			project.setAvgLinesOfCode(avgLinesOfCode);
+//			project.setStatus("ANALYZED");
+//			repository.save(project);
+//
+//			log.info("Analysis finished for project: {}", project.getId());
+//		});
 	}
 
 	private Long countAvgLinesOfCode(List<JavaClass> classes) {

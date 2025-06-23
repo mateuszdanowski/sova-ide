@@ -51,9 +51,13 @@ public class JarParseService {
 				try (InputStream is = jarFile.getInputStream(entry)) {
 					content = new String(is.readAllBytes(), StandardCharsets.UTF_8);
 					FileKind kind = readFileKind(entryName);
-					String id = project.getId() + "#" + entryName;
 					List<Entity> entities = findEntities(entryName, content, kind);
-					allFiles.add(new File(id, entryName, kind, content, entities));
+					File file = new File();
+					file.setKind(kind);
+					file.setPath(entryName);
+					file.setContent(content);
+					file.setEntities(entities);
+					allFiles.add(file);
 				}
 			}
 		} catch (IOException ex) {
@@ -95,15 +99,18 @@ public class JarParseService {
 							} else {
 								memberKind = MemberKind.OTHER;
 							}
-							return new Member(null, member.toString(), memberKind, "content");
+							Member memberObj = new Member();
+							memberObj.setContent(member.toString());
+							memberObj.setKind(memberKind);
+							return memberObj;
 						}).toList();
 
-					return new Entity(
-									null,
-									t.getNameAsString(),
-									EntityKind.CLASS, // todo support different types than classes
-									content,
-									members);
+					Entity entity = new Entity();
+					entity.setKind(EntityKind.CLASS); // todo support different types than classes
+					entity.setContent(content);
+					entity.setName(t.getNameAsString());
+					entity.setMembers(members);
+					return entity;
 				}).toList();
 			} catch (ParseProblemException e) {
 				log.error("Error when parsing {}: {}", entryName, e.getMessage());
