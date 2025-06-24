@@ -8,15 +8,21 @@
   + ✅ Abstrakcje na Neo4j – krawędź i wierzchołek
   + rozszerzenie schematu z relacjami między wierzchołkami
   + Cypher - jak podstawowe rzeczy wyciągać (relacje itd)
-- Szkic API dla pluginów (extension points + dostęp do bazy)
+- Szkic API dla pluginów
   + Specyfikacja minimalnego kontraktu pluginu
+  + Extension points
+  + ✅ Dostęp do bazy
 - System ładujący pluginy (pliki `.jar`)
   + ✅ Rejestracja pustego pluginu
+  + Rejestracja pluginów do pamięci i odpalenie ich po parserze
+  + Implementacja output plugin'a – liczenie klas (output w konsoli póki co)
 - Plugin parsera JAR (zapis do bazy)
-  - ✅ Logika parsowania
-  - ✅ Logika zapisywania w bazie
-- Output plugin – liczenie klas (output w konsoli)
-- ✅ Dodatkowo: Przemyślenie sposobu udostępniania API głównej aplikacji dla pluginów (np. przez GitHub Packages jako alternatywa dla Maven Central)
+  + ✅ Logika parsowania
+  + ✅ Logika zapisywania w bazie
+  + Implementacja parsera jako plugin
+- Przemyślenie sposobu udostępniania API głównej aplikacji dla pluginów (np. przez GitHub Packages jako alternatywa dla Maven Central)
+  + ✅ Budowanie plugin-api do maven local
+  + Budowanie plugin-api do GitHub Packages
 
 ### Pisanie (1 tydzień)  
 **25 czerwca – 2 lipca**
