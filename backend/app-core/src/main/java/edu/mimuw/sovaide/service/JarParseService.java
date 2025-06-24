@@ -16,6 +16,7 @@ import org.springframework.stereotype.Service;
 import com.github.javaparser.ParseProblemException;
 import com.github.javaparser.StaticJavaParser;
 import com.github.javaparser.ast.CompilationUnit;
+import com.github.javaparser.ast.body.ClassOrInterfaceDeclaration;
 import com.github.javaparser.ast.body.TypeDeclaration;
 
 import edu.mimuw.sovaide.domain.model.Entity;
@@ -69,46 +70,25 @@ public class JarParseService {
 	}
 
 	private List<Entity> findEntities(String entryName, String content, FileKind kind) {
-		if (kind == FileKind.SOURCE_FILE) {
+		if (kind == FileKind.SOURCE_FILE || kind == FileKind.TEST_FILE) {
 			try {
 				final String cont = content;
 				CompilationUnit unit = StaticJavaParser.parse(cont);
 
-//				EntityKind entityKind;
-//				unit.findAll(ClassOrInterfaceDeclaration.class).forEach(c -> {
-//					if (c.isInterface()) {
-//						entityKind = EntityKind.INTERFACE;
-//					} else {
-//						entityKind = EntityKind.CLASS;
-//					}
-//				});
+				// todo idea for future: parse imports
+				// unit.getImports();
 
-				List<TypeDeclaration<?>> types = unit.getTypes().stream()
-						.filter(TypeDeclaration::isClassOrInterfaceDeclaration)
-						.toList();
+				// todo idea for future: keep <unit> inside the database
+				// file.setUnit(unit);
 
-				return types.stream().map(t -> {
-					List<Member> members = t.getMembers().stream().map(member -> {
-							MemberKind memberKind;
-							if (member.isFieldDeclaration()) {
-								memberKind = MemberKind.FIELD;
-							} else if (member.isMethodDeclaration()) {
-								memberKind = MemberKind.METHOD;
-							} else if (member.isConstructorDeclaration()) {
-								memberKind = MemberKind.CONSTRUCTOR;
-							} else {
-								memberKind = MemberKind.OTHER;
-							}
-							Member memberObj = new Member();
-							memberObj.setContent(member.toString());
-							memberObj.setKind(memberKind);
-							return memberObj;
-						}).toList();
-
+				return unit.getTypes().stream().map(type -> {
+					EntityKind entityKind = findEntityKind(type);
+					List<Member> members = (entityKind == EntityKind.CLASS || entityKind == EntityKind.INTERFACE) ?
+							getMembers(type) : List.of();
 					Entity entity = new Entity();
-					entity.setKind(EntityKind.CLASS); // todo support different types than classes
+					entity.setKind(entityKind);
 					entity.setContent(content);
-					entity.setName(t.getNameAsString());
+					entity.setName(type.getNameAsString());
 					entity.setMembers(members);
 					return entity;
 				}).toList();
@@ -117,6 +97,44 @@ public class JarParseService {
 			}
 		}
 		return List.of();
+	}
+
+	private List<Member> getMembers(TypeDeclaration<?> type) {
+		return type.getMembers().stream().map(member -> {
+			MemberKind memberKind;
+			if (member.isFieldDeclaration()) {
+				memberKind = MemberKind.FIELD;
+			} else if (member.isMethodDeclaration()) {
+				memberKind = MemberKind.METHOD;
+			} else if (member.isConstructorDeclaration()) {
+				memberKind = MemberKind.CONSTRUCTOR;
+			} else {
+				memberKind = MemberKind.OTHER;
+			}
+			Member memberObj = new Member();
+			memberObj.setContent(member.toString());
+			memberObj.setKind(memberKind);
+			return memberObj;
+		}).toList();
+	}
+
+	private EntityKind findEntityKind(TypeDeclaration<?> type) {
+		if (type.isClassOrInterfaceDeclaration()) {
+			ClassOrInterfaceDeclaration coid = type.asClassOrInterfaceDeclaration();
+			if (coid.isInterface()) {
+				return EntityKind.INTERFACE;
+			} else {
+				return EntityKind.CLASS;
+			}
+		} else if (type.isEnumDeclaration()) {
+			return EntityKind.ENUM;
+		} else if (type.isAnnotationDeclaration()) {
+			return EntityKind.ANNOTATION;
+		} else if (type.isRecordDeclaration()) {
+			return EntityKind.RECORD;
+		} else {
+			return EntityKind.OTHER;
+		}
 	}
 
 	private FileKind readFileKind(String entryName) {

@@ -5,5 +5,6 @@ public enum EntityKind {
 	INTERFACE,
 	RECORD,
 	ENUM,
+	ANNOTATION,
 	OTHER
 }

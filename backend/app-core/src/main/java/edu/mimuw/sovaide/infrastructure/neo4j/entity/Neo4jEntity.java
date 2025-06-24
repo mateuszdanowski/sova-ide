@@ -27,10 +27,10 @@ public class Neo4jEntity {
     private String content;
     @Relationship(type = "HAS", direction = Relationship.Direction.OUTGOING)
     private List<Neo4jMember> members;
-    @Relationship(type = "IMPLEMENTS", direction = Relationship.Direction.OUTGOING)
-    private List<Neo4jEntity> implementsEntities;
-    @Relationship(type = "EXTENDS", direction = Relationship.Direction.OUTGOING)
-    private List<Neo4jEntity> extendsEntities;
-    @Relationship(type = "USES", direction = Relationship.Direction.OUTGOING)
-    private List<Neo4jEntity> usesEntities;
+//    @Relationship(type = "IMPLEMENTS", direction = Relationship.Direction.OUTGOING)
+//    private List<Neo4jEntity> implementsEntities;
+//    @Relationship(type = "EXTENDS", direction = Relationship.Direction.OUTGOING)
+//    private List<Neo4jEntity> extendsEntities;
+//    @Relationship(type = "USES", direction = Relationship.Direction.OUTGOING)
+//    private List<Neo4jEntity> usesEntities;
 }

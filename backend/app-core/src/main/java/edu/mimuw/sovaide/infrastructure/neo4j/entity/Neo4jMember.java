@@ -1,11 +1,8 @@
 package edu.mimuw.sovaide.infrastructure.neo4j.entity;
 
-import java.util.List;
-
 import org.springframework.data.neo4j.core.schema.GeneratedValue;
 import org.springframework.data.neo4j.core.schema.Id;
 import org.springframework.data.neo4j.core.schema.Node;
-import org.springframework.data.neo4j.core.schema.Relationship;
 
 import edu.mimuw.sovaide.domain.model.MemberKind;
 import lombok.AllArgsConstructor;
@@ -25,8 +22,8 @@ public class Neo4jMember {
     private String name;
     private MemberKind kind;
     private String content;
-    @Relationship(type = "CALLS", direction = Relationship.Direction.OUTGOING)
-    private List<Neo4jMember> calls;
-    @Relationship(type = "IS_OF_TYPE", direction = Relationship.Direction.OUTGOING)
-    private Neo4jEntity isOfType;
+//    @Relationship(type = "CALLS", direction = Relationship.Direction.OUTGOING)
+//    private List<Neo4jMember> calls;
+//    @Relationship(type = "IS_OF_TYPE", direction = Relationship.Direction.OUTGOING)
+//    private Neo4jEntity isOfType;
 }
