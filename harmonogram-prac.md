@@ -6,23 +6,23 @@
 - ✅ Działająca baza danych Neo4j z prostym schematem
   + ✅ Szkic API jako fasada Neo4j (zabezpieczenie przed zmianą technologii bazy danych)
   + ✅ Abstrakcje na Neo4j – krawędź i wierzchołek
-  + rozszerzenie schematu z relacjami między wierzchołkami
-  + Cypher - jak podstawowe rzeczy wyciągać (relacje itd)
+  + ⚠️ rozszerzenie schematu z relacjami między wierzchołkami
+  + ✅ Cypher - jak podstawowe rzeczy wyciągać (relacje itd)
 - Szkic API dla pluginów
-  + Specyfikacja minimalnego kontraktu pluginu
-  + Extension points
+  + [na później] Specyfikacja minimalnego kontraktu pluginu
+  + [na później] Extension points
   + ✅ Dostęp do bazy
-- System ładujący pluginy (pliki `.jar`)
+- ✅ System ładujący pluginy (pliki `.jar`)
   + ✅ Rejestracja pustego pluginu
-  + Rejestracja pluginów do pamięci i odpalenie ich po parserze
-  + Implementacja output plugin'a – liczenie klas (output w konsoli póki co)
+  + ✅ Rejestracja pluginów do pamięci i odpalenie ich po parserze
+  + ✅ Implementacja output plugin'a – liczenie liczby plików w projekcie (output w konsoli póki co)
 - Plugin parsera JAR (zapis do bazy)
   + ✅ Logika parsowania
   + ✅ Logika zapisywania w bazie
-  + Implementacja parsera jako plugin
+  + [na później] Implementacja parsera jako plugin
 - Przemyślenie sposobu udostępniania API głównej aplikacji dla pluginów (np. przez GitHub Packages jako alternatywa dla Maven Central)
   + ✅ Budowanie plugin-api do maven local
-  + Budowanie plugin-api do GitHub Packages
+  + [na później] Budowanie plugin-api do GitHub Packages
 
 ### Pisanie (1 tydzień)  
 **25 czerwca – 2 lipca**
