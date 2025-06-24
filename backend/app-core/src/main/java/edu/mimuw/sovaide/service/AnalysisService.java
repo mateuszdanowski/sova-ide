@@ -43,11 +43,15 @@ public class AnalysisService {
 
 	private final PluginExecutor pluginExecutor;
 
+	private final AdditionalRelationshipsCreator additionalRelationshipsCreator;
+
 	public void analyzeProjectAsync(Project project) {
 		taskExecutor.execute(() -> {
 			log.info("Parsing into neo4j started for project: {}", project.getId());
 			jarParseService.parse(project);
 			log.info("Parsing into neo4j finished for project: {}", project.getId());
+			additionalRelationshipsCreator.execute(project);
+
 			pluginExecutor.executeAll();
 		});
 //		taskExecutor.execute(() -> {

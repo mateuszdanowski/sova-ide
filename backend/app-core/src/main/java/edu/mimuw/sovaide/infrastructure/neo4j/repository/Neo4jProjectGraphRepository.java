@@ -10,7 +10,9 @@ import edu.mimuw.sovaide.domain.repository.ProjectRepository;
 import edu.mimuw.sovaide.infrastructure.neo4j.entity.Neo4jProject;
 import edu.mimuw.sovaide.infrastructure.neo4j.mapper.ProjectMapper;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 
+@Slf4j
 @Service
 @RequiredArgsConstructor
 public class Neo4jProjectGraphRepository implements ProjectRepository {
@@ -42,4 +44,12 @@ public class Neo4jProjectGraphRepository implements ProjectRepository {
 		projectRepository.deleteById(id);
 	}
 
+//	@Override
+//	public List<Entity> findNeo4jEntityByNameAndProjectId(String name, String projectId) {
+//		List<Neo4jEntity> obj = projectRepository.findNeo4jEntityByNameAndProjectId(name,
+//				projectId);
+//		return neo4jEntityByNameAndProjectId.stream()
+//				.map(EntityMapper::toDomain)
+//				.toList();
+//	}
 }

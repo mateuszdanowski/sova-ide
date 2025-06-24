@@ -11,9 +11,11 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 public class Entity {
 	private String id;
+	private String projectId;
 	private String name;
 	private EntityKind kind;
 	private String content;
 //	private List<String> imports; // ?
 	private List<Member> members;
+	private List<Entity> implementsEntities;
 }

@@ -8,6 +8,7 @@ public class MemberMapper {
         if (neo4jMember == null) return null;
         Member member = new Member();
         member.setId(neo4jMember.getId());
+        member.setProjectId(neo4jMember.getProjectId());
         member.setName(neo4jMember.getName());
         member.setKind(neo4jMember.getKind());
         member.setContent(neo4jMember.getContent());
@@ -21,6 +22,7 @@ public class MemberMapper {
         if (member == null) return null;
         return Neo4jMember.builder()
             .id(member.getId())
+            .projectId(member.getProjectId())
             .name(member.getName())
             .kind(member.getKind())
             .content(member.getContent())

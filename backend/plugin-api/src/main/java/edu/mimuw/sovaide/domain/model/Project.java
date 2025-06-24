@@ -1,10 +1,6 @@
 package edu.mimuw.sovaide.domain.model;
 
-import static com.fasterxml.jackson.annotation.JsonInclude.Include.ALWAYS;
-
 import java.util.List;
-
-import com.fasterxml.jackson.annotation.JsonInclude;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -15,7 +11,6 @@ import lombok.Setter;
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
-@JsonInclude(ALWAYS)
 public class Project {
 	private String id;
 	private String name;
@@ -25,4 +20,10 @@ public class Project {
 	private Long noOfImports;
 	private Long avgLinesOfCode;
 	private List<File> files;
+
+	public List<Entity> getAllEntities() {
+		return files == null ? null : files.stream()
+			.flatMap(file -> file.getEntities().stream())
+			.toList();
+	}
 }

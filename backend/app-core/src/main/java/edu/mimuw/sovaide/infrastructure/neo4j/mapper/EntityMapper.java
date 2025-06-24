@@ -8,6 +8,7 @@ public class EntityMapper {
         if (neo4jEntity == null) return null;
         Entity entity = new Entity();
         entity.setId(neo4jEntity.getId());
+        entity.setProjectId(neo4jEntity.getProjectId());
         entity.setName(neo4jEntity.getName());
         entity.setKind(neo4jEntity.getKind());
         entity.setContent(neo4jEntity.getContent());
@@ -17,6 +18,12 @@ public class EntityMapper {
                     .map(MemberMapper::toDomain)
                     .toList()
         );
+//        entity.setImplementsEntities(
+//            neo4jEntity.getImplementsEntities() == null ? null :
+//                neo4jEntity.getImplementsEntities().stream()
+//                    .map(EntityMapper::toDomain)
+//                    .toList()
+//        );
         // Relationships like implementsEntities, extendsEntities, usesEntities can be mapped as needed
         return entity;
     }
@@ -25,6 +32,7 @@ public class EntityMapper {
         if (entity == null) return null;
         return Neo4jEntity.builder()
             .id(entity.getId())
+            .projectId(entity.getProjectId())
             .name(entity.getName())
             .kind(entity.getKind())
             .content(entity.getContent())
@@ -34,6 +42,12 @@ public class EntityMapper {
                         .map(MemberMapper::fromDomain)
                         .toList()
             )
+//                .implementsEntities(
+//                    entity.getImplementsEntities() == null ? null :
+//                        entity.getImplementsEntities().stream()
+//                            .map(EntityMapper::fromDomain)
+//                            .toList()
+//                )
             // Relationships like implementsEntities, extendsEntities, usesEntities can be mapped as needed
             .build();
     }

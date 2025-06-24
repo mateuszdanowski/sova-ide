@@ -11,6 +11,7 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 public class File {
 	private String id;
+	private String projectId;
 	private String path;
 	private FileKind kind;
 	private String content;

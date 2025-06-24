@@ -38,7 +38,8 @@ public class JarParseService {
 	private final ProjectRepository projectRepository;
 
 	public void parse(Project project) {
-		String localFilePath = getLocalFilePath(project.getId(), project.getFileUrl());
+		String projectId = project.getId();
+		String localFilePath = getLocalFilePath(projectId, project.getFileUrl());
 		List<File> allFiles = new ArrayList<>();
 
 		try (JarFile jarFile = new JarFile(localFilePath)) {
@@ -52,8 +53,9 @@ public class JarParseService {
 				try (InputStream is = jarFile.getInputStream(entry)) {
 					content = new String(is.readAllBytes(), StandardCharsets.UTF_8);
 					FileKind kind = readFileKind(entryName);
-					List<Entity> entities = findEntities(entryName, content, kind);
+					List<Entity> entities = findEntities(entryName, content, kind, projectId);
 					File file = new File();
+					file.setProjectId(projectId);
 					file.setKind(kind);
 					file.setPath(entryName);
 					file.setContent(content);
@@ -69,7 +71,7 @@ public class JarParseService {
 		projectRepository.save(project);
 	}
 
-	private List<Entity> findEntities(String entryName, String content, FileKind kind) {
+	private List<Entity> findEntities(String entryName, String content, FileKind kind, String projectId) {
 		if (kind == FileKind.SOURCE_FILE || kind == FileKind.TEST_FILE) {
 			try {
 				final String cont = content;
@@ -84,8 +86,9 @@ public class JarParseService {
 				return unit.getTypes().stream().map(type -> {
 					EntityKind entityKind = findEntityKind(type);
 					List<Member> members = (entityKind == EntityKind.CLASS || entityKind == EntityKind.INTERFACE) ?
-							getMembers(type) : List.of();
+							getMembers(type, projectId) : List.of();
 					Entity entity = new Entity();
+					entity.setProjectId(projectId);
 					entity.setKind(entityKind);
 					entity.setContent(content);
 					entity.setName(type.getNameAsString());
@@ -99,7 +102,7 @@ public class JarParseService {
 		return List.of();
 	}
 
-	private List<Member> getMembers(TypeDeclaration<?> type) {
+	private List<Member> getMembers(TypeDeclaration<?> type, String projectId) {
 		return type.getMembers().stream().map(member -> {
 			MemberKind memberKind;
 			if (member.isFieldDeclaration()) {
@@ -112,6 +115,7 @@ public class JarParseService {
 				memberKind = MemberKind.OTHER;
 			}
 			Member memberObj = new Member();
+			memberObj.setProjectId(projectId);
 			memberObj.setContent(member.toString());
 			memberObj.setKind(memberKind);
 			return memberObj;

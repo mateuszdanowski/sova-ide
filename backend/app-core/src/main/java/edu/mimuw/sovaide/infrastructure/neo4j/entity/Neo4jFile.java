@@ -22,6 +22,7 @@ public class Neo4jFile {
     @Id
     @GeneratedValue
     private String id;
+    private String projectId;
     private String path;
     private FileKind kind;
     private String content;

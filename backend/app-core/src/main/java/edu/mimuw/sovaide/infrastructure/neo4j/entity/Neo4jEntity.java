@@ -22,11 +22,14 @@ public class Neo4jEntity {
     @Id
     @GeneratedValue
     private String id;
+    private String projectId;
     private String name;
     private EntityKind kind;
     private String content;
     @Relationship(type = "HAS", direction = Relationship.Direction.OUTGOING)
     private List<Neo4jMember> members;
+
+    // todo idea: this can be populated by a separate plugin
 //    @Relationship(type = "IMPLEMENTS", direction = Relationship.Direction.OUTGOING)
 //    private List<Neo4jEntity> implementsEntities;
 //    @Relationship(type = "EXTENDS", direction = Relationship.Direction.OUTGOING)
