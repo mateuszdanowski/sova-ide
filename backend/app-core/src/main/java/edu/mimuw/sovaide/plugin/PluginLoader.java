@@ -1,26 +1,30 @@
 package edu.mimuw.sovaide.plugin;
 
-import org.springframework.stereotype.Service;
 import java.io.File;
 import java.io.IOException;
 import java.lang.reflect.Modifier;
 import java.net.URL;
 import java.net.URLClassLoader;
+import java.util.ArrayList;
 import java.util.Enumeration;
+import java.util.List;
 import java.util.jar.JarEntry;
 import java.util.jar.JarFile;
 
-import edu.mimuw.sovaide.domain.plugin.PluginSova;
-import edu.mimuw.sovaide.domain.repository.ProjectRepository;
-import jakarta.annotation.PostConstruct;
-import lombok.RequiredArgsConstructor;
+import org.springframework.stereotype.Service;
 
+import edu.mimuw.sovaide.domain.plugin.PluginSova;
+import jakarta.annotation.PostConstruct;
+import lombok.Getter;
+import lombok.extern.slf4j.Slf4j;
+
+@Slf4j
 @Service
-@RequiredArgsConstructor
+@Getter
 public class PluginLoader {
     private static final String PLUGIN_DIR = "plugins";
 
-    private final ProjectRepository repository;
+    private final List<PluginSova> loadedPlugins = new ArrayList<>();
 
     @PostConstruct
     public void loadPlugins() {
@@ -35,7 +39,7 @@ public class PluginLoader {
             try {
                 loadPluginFromJar(jar);
             } catch (Exception e) {
-                e.printStackTrace();
+                log.error("Failed to load plugin from {}: {}", jar.getName(), e.getMessage());
             }
         }
     }
@@ -51,9 +55,9 @@ public class PluginLoader {
                         String className = entry.getName().replace('/', '.').replace(".class", "");
                         Class<?> clazz = cl.loadClass(className);
                         if (PluginSova.class.isAssignableFrom(clazz) && !Modifier.isAbstract(clazz.getModifiers())) {
-                            PluginSova pluginSova = (PluginSova) clazz.getDeclaredConstructor().newInstance();
-                            System.out.println("Executing pluginSova: " + className);
-                            pluginSova.execute(repository);
+                            PluginSova plugin = (PluginSova) clazz.getDeclaredConstructor().newInstance();
+                            loadedPlugins.add(plugin);
+                            log.info("Loaded plugin: {}", className);
                         }
                     }
                 }

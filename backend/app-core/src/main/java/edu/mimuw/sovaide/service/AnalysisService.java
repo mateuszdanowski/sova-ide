@@ -41,11 +41,14 @@ public class AnalysisService {
 
 	private final JarParseService jarParseService;
 
+	private final PluginExecutor pluginExecutor;
+
 	public void analyzeProjectAsync(Project project) {
 		taskExecutor.execute(() -> {
 			log.info("Parsing into neo4j started for project: {}", project.getId());
 			jarParseService.parse(project);
 			log.info("Parsing into neo4j finished for project: {}", project.getId());
+			pluginExecutor.executeAll();
 		});
 //		taskExecutor.execute(() -> {
 //			log.info("Running background analysis for project: {}", project.getId());

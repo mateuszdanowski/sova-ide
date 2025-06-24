@@ -10,7 +10,6 @@ java {
     toolchain {
         languageVersion = JavaLanguageVersion.of(21)
     }
-    withSourcesJar()
 }
 
 repositories {
@@ -28,6 +27,7 @@ test {
     useJUnitPlatform()
 }
 
+// ./gradlew :plugin-api:publishToMavenLocal
 publishing {
     publications {
         mavenJava(MavenPublication) {
