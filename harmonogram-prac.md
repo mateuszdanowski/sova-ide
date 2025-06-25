@@ -28,10 +28,10 @@
 **25 czerwca – 2 lipca**
 
 - [ready] Szkic struktury pracy magisterskiej (LaTeX)
-- Opis architektury backendu + diagramy
+- [ready] Opis architektury backendu + diagramy
 - [ready] Schemat danych w bazie + uzasadnienie wyboru grafowej bazy danych
   + będzie wymienne np. na SQLa
-- [ready] Zbieranie literatury (BiBTeX)
+- [w trakcie pisania, wedle potrzeby] Zbieranie literatury (BiBTeX)
 
 ---
 
