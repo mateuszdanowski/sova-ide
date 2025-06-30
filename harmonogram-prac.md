@@ -27,7 +27,10 @@
 ### Pisanie (1 tydzień)  
 **25 czerwca – 2 lipca**
 
-- [ready] Szkic struktury pracy magisterskiej (LaTeX)
+- ✅ Szkic struktury pracy magisterskiej (LaTeX)
+- ✅ rozdział 0: Wprowadzenie
+- ✅ sekcja o IntelliJ IDEA
+- ✅ uzasadnienie decyzji o formie systemu: osoba aplikacja webowa vs plugin do istniejącego IDE
 - [ready] Opis architektury backendu + diagramy
 - [ready] Schemat danych w bazie + uzasadnienie wyboru grafowej bazy danych
   + będzie wymienne np. na SQLa
