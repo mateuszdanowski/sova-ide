@@ -17,15 +17,7 @@ public class EntityMapper {
                 neo4jEntity.getMembers().stream()
                     .map(MemberMapper::toDomain)
                     .toList()
-        );
-//        entity.setImplementsEntities(
-//            neo4jEntity.getImplementsEntities() == null ? null :
-//                neo4jEntity.getImplementsEntities().stream()
-//                    .map(EntityMapper::toDomain)
-//                    .toList()
-//        );
-        // Relationships like implementsEntities, extendsEntities, usesEntities can be mapped as needed
-        return entity;
+        );return entity;
     }
 
     public static Neo4jEntity fromDomain(Entity entity) {
@@ -41,14 +33,6 @@ public class EntityMapper {
                     entity.getMembers().stream()
                         .map(MemberMapper::fromDomain)
                         .toList()
-            )
-//                .implementsEntities(
-//                    entity.getImplementsEntities() == null ? null :
-//                        entity.getImplementsEntities().stream()
-//                            .map(EntityMapper::fromDomain)
-//                            .toList()
-//                )
-            // Relationships like implementsEntities, extendsEntities, usesEntities can be mapped as needed
-            .build();
+            ).build();
     }
 }

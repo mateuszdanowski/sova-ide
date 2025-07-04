@@ -15,9 +15,4 @@ public interface SpringDataNeo4jProjectGraphRepository extends Neo4jRepository<N
 	List<Neo4jProject> findAll();
 
 	Optional<Neo4jProject> findById(String id);
-
-//	@Query("MATCH (e:Entity) " +
-//			"WHERE e.name = $name AND e.projectId = $projectId " +
-//			"RETURN e")
-//	List<Neo4jEntity> findNeo4jEntityByNameAndProjectId(String name, String projectId);
 }

@@ -14,14 +14,6 @@ export async function getProject(id) {
     return await axios.get(`${API_URL}/${id}`);
 }
 
-export async function getProjectDetails(id) {
-    return await axios.get(`${API_URL}/${id}/details`);
-}
-
-export async function getPackagesGraph(id) {
-    return await axios.get(`${API_URL}/${id}/packages-graph`);
-}
-
 export async function uploadFile(formData) {
     return await axios.put(`${API_URL}/file`, formData);
 }

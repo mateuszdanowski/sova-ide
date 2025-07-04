@@ -13,6 +13,4 @@ public interface ProjectRepository {
 	Project save(Project project);
 
 	void deleteById(String id);
-
-//	? findNeo4jEntityByNameAndProjectId(String name, String projectId);
 }

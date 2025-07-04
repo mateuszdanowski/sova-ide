@@ -12,9 +12,6 @@ public class MemberMapper {
         member.setName(neo4jMember.getName());
         member.setKind(neo4jMember.getKind());
         member.setContent(neo4jMember.getContent());
-        // Relationships
-        // Calls
-        // IS_OF_TYPE
         return member;
     }
 
@@ -26,8 +23,6 @@ public class MemberMapper {
             .name(member.getName())
             .kind(member.getKind())
             .content(member.getContent())
-            // Calls
-            // IS_OF_TYPE
             .build();
     }
 }

@@ -22,7 +22,6 @@ dependencies {
 
 	implementation 'org.springframework.boot:spring-boot-starter-web'
 	implementation 'com.github.javaparser:javaparser-core:3.27.0'
-	implementation("org.apache.tinkerpop:tinkergraph-gremlin:3.7.3") // todo temp, to be removed
 	implementation 'org.springframework.boot:spring-boot-starter-data-neo4j:3.5.0'
 	compileOnly 'org.projectlombok:lombok'
 	annotationProcessor 'org.projectlombok:lombok'

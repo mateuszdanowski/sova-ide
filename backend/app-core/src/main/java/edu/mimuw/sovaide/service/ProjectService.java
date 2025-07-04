@@ -17,7 +17,6 @@ import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import edu.mimuw.sovaide.domain.model.Project;
-import edu.mimuw.sovaide.domain.legacy.graph.GraphDTO;
 import edu.mimuw.sovaide.domain.repository.ProjectRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -29,7 +28,6 @@ import lombok.extern.slf4j.Slf4j;
 public class ProjectService {
 	private final ProjectRepository repository;
 	private final AnalysisService analysisService;
-	private final GraphBuildingService graphBuildingService;
 
 	public List<Project> getAllProjects() {
 		return repository.findAll();
@@ -38,19 +36,6 @@ public class ProjectService {
 	public Project getProject(String id) {
 		return repository.findById(id).orElseThrow(() -> new IllegalArgumentException("Project not found"));
 	}
-
-	public GraphDTO getProjectDetails(String id) {
-		return graphBuildingService.getGraph(id);
-	}
-
-	public GraphDTO getPackagesGraph(String id) {
-		return graphBuildingService.getGraphPackages(id);
-	}
-
-	public GraphDTO getPackageImportsGraph(String id) {
-		return graphBuildingService.getGraphPackageImports(id);
-	}
-
 	public Project createProject(Project project) {
 		return repository.save(project);
 	}

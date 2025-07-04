@@ -26,7 +26,6 @@ public class Neo4jProject {
     @Relationship(type = "HAS", direction = Relationship.Direction.OUTGOING)
     private List<Neo4jFile> files;
 
-    // moved from legacy Project entity
     private String fileUrl;
     @Builder.Default private String status = "NOT ANALYZED";
     private Long noOfClasses;

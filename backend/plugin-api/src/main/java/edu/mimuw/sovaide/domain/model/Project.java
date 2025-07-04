@@ -20,10 +20,4 @@ public class Project {
 	private Long noOfImports;
 	private Long avgLinesOfCode;
 	private List<File> files;
-
-	public List<Entity> getAllEntities() {
-		return files == null ? null : files.stream()
-			.flatMap(file -> file.getEntities().stream())
-			.toList();
-	}
 }

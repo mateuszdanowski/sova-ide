@@ -23,10 +23,4 @@ public class Neo4jMember {
     private String name;
     private MemberKind kind;
     private String content;
-
-    // todo idea: this can be populated by a separate plugin
-//    @Relationship(type = "CALLS", direction = Relationship.Direction.OUTGOING)
-//    private List<Neo4jMember> calls;
-//    @Relationship(type = "IS_OF_TYPE", direction = Relationship.Direction.OUTGOING)
-//    private Neo4jEntity isOfType;
 }

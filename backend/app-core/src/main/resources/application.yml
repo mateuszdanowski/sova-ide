@@ -6,10 +6,6 @@ spring:
     authentication:
       username: neo4j
       password: password
-#    database:
-#      query:
-#        logging:
-#          enabled: true
   servlet:
     multipart:
       enabled: true
@@ -25,16 +21,3 @@ server:
     path: /error
     whitelabel:
         enabled: false
-#logging:
-#  level:
-#    org.springframework.data.neo4j: DEBUG
-#    org.neo4j.driver: DEBUG
-#    org.springframework.data: DEBUG
-#
-#org:
-#  neo4j:
-#    driver:
-#      query:
-#        logging:
-#          level: DEBUG
-#          enabled: true

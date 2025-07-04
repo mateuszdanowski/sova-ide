@@ -21,7 +21,6 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 
 import edu.mimuw.sovaide.domain.model.Project;
-import edu.mimuw.sovaide.domain.legacy.graph.GraphDTO;
 import edu.mimuw.sovaide.service.ProjectService;
 import lombok.RequiredArgsConstructor;
 
@@ -44,21 +43,6 @@ public class ProjectResource {
 	@GetMapping("/{id}")
 	public ResponseEntity<Project> getProject(@PathVariable(value = "id") String id) {
 		return ResponseEntity.ok().body(projectService.getProject(id));
-	}
-
-	@GetMapping("/{id}/details")
-	public ResponseEntity<GraphDTO> getProjectDetails(@PathVariable(value = "id") String id) {
-		return ResponseEntity.ok().body(projectService.getProjectDetails(id));
-	}
-
-	@GetMapping("/{id}/packages-graph")
-	public ResponseEntity<GraphDTO> getPackagesGraph(@PathVariable(value = "id") String id) {
-		return ResponseEntity.ok().body(projectService.getPackagesGraph(id));
-	}
-
-	@GetMapping("/{id}/package-imports-graph")
-	public ResponseEntity<GraphDTO> getPackageImportsGraph(@PathVariable(value = "id") String id) {
-		return ResponseEntity.ok().body(projectService.getPackageImportsGraph(id));
 	}
 
 	@PutMapping("/file")

@@ -43,13 +43,4 @@ public class Neo4jProjectGraphRepository implements ProjectRepository {
 	public void deleteById(String id) {
 		projectRepository.deleteById(id);
 	}
-
-//	@Override
-//	public List<Entity> findNeo4jEntityByNameAndProjectId(String name, String projectId) {
-//		List<Neo4jEntity> obj = projectRepository.findNeo4jEntityByNameAndProjectId(name,
-//				projectId);
-//		return neo4jEntityByNameAndProjectId.stream()
-//				.map(EntityMapper::toDomain)
-//				.toList();
-//	}
 }
