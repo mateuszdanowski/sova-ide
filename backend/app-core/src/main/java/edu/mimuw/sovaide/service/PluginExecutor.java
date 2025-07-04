@@ -4,8 +4,9 @@ import java.util.List;
 
 import org.springframework.stereotype.Service;
 
+import edu.mimuw.sovaide.domain.graph.GraphDBFacade;
 import edu.mimuw.sovaide.domain.plugin.PluginSova;
-import edu.mimuw.sovaide.domain.repository.ProjectRepository;
+import edu.mimuw.sovaide.domain.model.repository.ProjectRepository;
 import edu.mimuw.sovaide.plugin.PluginLoader;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -19,13 +20,15 @@ public class PluginExecutor {
 
 	private final ProjectRepository repository;
 
+	private final GraphDBFacade graphDBFacade;
+
 	public void executeAll() {
 		List<PluginSova> plugins = pluginLoader.getLoadedPlugins();
 		log.info("Executing plugins: {}", plugins);
 
 		for (PluginSova plugin : plugins) {
 			try {
-				plugin.execute(repository);
+				plugin.execute(repository, graphDBFacade);
 				log.info("Successfully executed plugin: {}", plugin.getClass().getName());
 			} catch (Exception e) {
 				log.error("Error executing plugin {}: {}",

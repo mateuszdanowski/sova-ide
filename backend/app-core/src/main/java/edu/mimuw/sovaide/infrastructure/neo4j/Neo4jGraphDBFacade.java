@@ -1,0 +1,145 @@
+package edu.mimuw.sovaide.infrastructure.neo4j;
+
+import org.neo4j.driver.*;
+import org.neo4j.driver.Record;
+import org.springframework.stereotype.Component;
+
+import java.util.*;
+
+import edu.mimuw.sovaide.domain.graph.EdgeDirection;
+import edu.mimuw.sovaide.domain.graph.GraphDBFacade;
+import edu.mimuw.sovaide.domain.graph.GraphEdge;
+import edu.mimuw.sovaide.domain.graph.GraphNode;
+import edu.mimuw.sovaide.infrastructure.neo4j.mapper.GraphEdgeMapper;
+import edu.mimuw.sovaide.infrastructure.neo4j.mapper.GraphNodeMapper;
+
+@Component
+public class Neo4jGraphDBFacade implements GraphDBFacade, AutoCloseable {
+    private final Driver driver;
+
+    public Neo4jGraphDBFacade(String uri, String user, String password) {
+        this.driver = GraphDatabase.driver(uri, AuthTokens.basic(user, password));
+    }
+
+    @Override
+    public GraphNode createNode(String label, Map<String, Object> properties) {
+        try (Session session = driver.session()) {
+            StringBuilder cypher = new StringBuilder("CREATE (n:" + label + ") ");
+            if (!properties.isEmpty()) {
+                cypher.append("SET n += $props ");
+            }
+            cypher.append("RETURN n");
+            Record record = session.executeWrite(tx ->
+					tx.run(cypher.toString(), Collections.singletonMap("props", properties)).single());
+            return GraphNodeMapper.from(record.get("n").asNode());
+        }
+    }
+
+    @Override
+    public Optional<GraphNode> getNodeById(String id) {
+        try (Session session = driver.session()) {
+            String cypher = "MATCH (n) WHERE id(n) = $id RETURN n";
+            Result result = session.run(cypher, Collections.singletonMap("id", Long.parseLong(id)));
+            if (result.hasNext()) {
+                Record record = result.next();
+                return Optional.of(GraphNodeMapper.from(record.get("n").asNode()));
+            }
+            return Optional.empty();
+        } catch (NumberFormatException e) {
+            return Optional.empty();
+        }
+    }
+
+    @Override
+    public List<GraphNode> findNodes(String label, Map<String, Object> filters) {
+        try (Session session = driver.session()) {
+            StringBuilder cypher = new StringBuilder("MATCH (n:" + label + ")");
+            if (!filters.isEmpty()) {
+                cypher.append(" WHERE ");
+                List<String> conds = new ArrayList<>();
+                for (String key : filters.keySet()) {
+                    conds.add("n." + key + " = $" + key);
+                }
+                cypher.append(String.join(" AND ", conds));
+            }
+            cypher.append(" RETURN n");
+            Result result = session.run(cypher.toString(), filters);
+            List<GraphNode> nodes = new ArrayList<>();
+            while (result.hasNext()) {
+                nodes.add(GraphNodeMapper.from(result.next().get("n").asNode()));
+            }
+            return nodes;
+        }
+    }
+
+    @Override
+    public GraphEdge createEdge(GraphNode from, GraphNode to, String type, Map<String, Object> properties) {
+        try (Session session = driver.session()) {
+            String cypher = "MATCH (a), (b) WHERE id(a) = $fromId AND id(b) = $toId CREATE (a)-[r:" + type + "]->(b) SET r += $props RETURN r, a, b";
+            Map<String, Object> params = new HashMap<>();
+            params.put("fromId", Long.parseLong(from.getId()));
+            params.put("toId", Long.parseLong(to.getId()));
+            params.put("props", properties);
+            Record record = session.executeWrite(tx -> tx.run(cypher, params).single());
+            return GraphEdgeMapper.from(record.get("r").asRelationship(), from, to);
+        }
+    }
+
+    @Override
+    public List<GraphEdge> getEdges(GraphNode node, String type, EdgeDirection direction) {
+        try (Session session = driver.session()) {
+            String rel = type != null ? ":" + type : "";
+            String pattern = switch (direction) {
+                case OUTGOING -> "(n)-[r" + rel + "]->(m)";
+                case INCOMING -> "(m)-[r" + rel + "]->(n)";
+            };
+            String cypher = "MATCH " + pattern + " WHERE id(n) = $id RETURN r, n, m";
+            Map<String, Object> params = new HashMap<>();
+            params.put("id", Long.parseLong(node.getId()));
+            Result result = session.run(cypher, params);
+            List<GraphEdge> edges = new ArrayList<>();
+            while (result.hasNext()) {
+                Record rec = result.next();
+                GraphNode nodeN = GraphNodeMapper.from(rec.get("n").asNode());
+                GraphNode nodeM = GraphNodeMapper.from(rec.get("m").asNode());
+
+                // Determine the correct from/to nodes based on direction
+                GraphNode from, to;
+                if (direction == EdgeDirection.OUTGOING) {
+                    // Pattern: (n)-[r]->(m), so n is from, m is to
+                    from = nodeN;
+                    to = nodeM;
+                } else { // INCOMING
+                    // Pattern: (m)-[r]->(n), so m is from, n is to
+                    from = nodeM;
+                    to = nodeN;
+                }
+
+                edges.add(GraphEdgeMapper.from(rec.get("r").asRelationship(), from, to));
+            }
+            return edges;
+        }
+    }
+
+    @Override
+    public List<Map<String, Object>> executeCypher(String cypher, Map<String, Object> parameters) {
+        try (Session session = driver.session()) {
+            Result result = session.run(cypher, parameters);
+            List<Map<String, Object>> list = new ArrayList<>();
+            while (result.hasNext()) {
+                Record record = result.next();
+                Map<String, Object> map = new HashMap<>();
+                for (String key : record.keys()) {
+                    map.put(key, record.get(key).asObject());
+                }
+                list.add(map);
+            }
+            return list;
+        }
+    }
+
+	@Override
+    public void close() {
+        driver.close();
+    }
+}

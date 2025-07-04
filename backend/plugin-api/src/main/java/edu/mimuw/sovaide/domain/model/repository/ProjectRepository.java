@@ -1,4 +1,4 @@
-package edu.mimuw.sovaide.domain.repository;
+package edu.mimuw.sovaide.domain.model.repository;
 
 import java.util.List;
 import java.util.Optional;

@@ -6,7 +6,7 @@ import java.util.Optional;
 import org.springframework.stereotype.Service;
 
 import edu.mimuw.sovaide.domain.model.Project;
-import edu.mimuw.sovaide.domain.repository.ProjectRepository;
+import edu.mimuw.sovaide.domain.model.repository.ProjectRepository;
 import edu.mimuw.sovaide.infrastructure.neo4j.entity.Neo4jProject;
 import edu.mimuw.sovaide.infrastructure.neo4j.mapper.ProjectMapper;
 import lombok.RequiredArgsConstructor;

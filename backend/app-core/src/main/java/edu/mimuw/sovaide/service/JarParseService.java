@@ -26,7 +26,7 @@ import edu.mimuw.sovaide.domain.model.FileKind;
 import edu.mimuw.sovaide.domain.model.Member;
 import edu.mimuw.sovaide.domain.model.MemberKind;
 import edu.mimuw.sovaide.domain.model.Project;
-import edu.mimuw.sovaide.domain.repository.ProjectRepository;
+import edu.mimuw.sovaide.domain.model.repository.ProjectRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 
