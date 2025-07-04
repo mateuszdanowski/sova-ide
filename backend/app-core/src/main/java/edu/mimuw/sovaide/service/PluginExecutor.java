@@ -22,13 +22,13 @@ public class PluginExecutor {
 
 	private final GraphDBFacade graphDBFacade;
 
-	public void executeAll() {
+	public void executeAll(String projectId) {
 		List<PluginSova> plugins = pluginLoader.getLoadedPlugins();
 		log.info("Executing plugins: {}", plugins);
 
 		for (PluginSova plugin : plugins) {
 			try {
-				plugin.execute(repository, graphDBFacade);
+				plugin.execute(projectId, repository, graphDBFacade);
 				log.info("Successfully executed plugin: {}", plugin.getClass().getName());
 			} catch (Exception e) {
 				log.error("Error executing plugin {}: {}",

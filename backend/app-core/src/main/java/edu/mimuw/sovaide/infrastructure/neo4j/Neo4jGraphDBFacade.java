@@ -1,10 +1,18 @@
 package edu.mimuw.sovaide.infrastructure.neo4j;
 
-import org.neo4j.driver.*;
-import org.neo4j.driver.Record;
-import org.springframework.stereotype.Component;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.Optional;
 
-import java.util.*;
+import org.neo4j.driver.AuthTokens;
+import org.neo4j.driver.Driver;
+import org.neo4j.driver.GraphDatabase;
+import org.neo4j.driver.Record;
+import org.neo4j.driver.Result;
+import org.neo4j.driver.Session;
 
 import edu.mimuw.sovaide.domain.graph.EdgeDirection;
 import edu.mimuw.sovaide.domain.graph.GraphDBFacade;
