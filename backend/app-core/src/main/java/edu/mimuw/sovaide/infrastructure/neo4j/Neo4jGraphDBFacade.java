@@ -13,7 +13,6 @@ import edu.mimuw.sovaide.domain.graph.GraphNode;
 import edu.mimuw.sovaide.infrastructure.neo4j.mapper.GraphEdgeMapper;
 import edu.mimuw.sovaide.infrastructure.neo4j.mapper.GraphNodeMapper;
 
-@Component
 public class Neo4jGraphDBFacade implements GraphDBFacade, AutoCloseable {
     private final Driver driver;
 
