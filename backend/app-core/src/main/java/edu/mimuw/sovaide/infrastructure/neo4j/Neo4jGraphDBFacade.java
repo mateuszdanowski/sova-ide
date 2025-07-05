@@ -45,8 +45,8 @@ public class Neo4jGraphDBFacade implements GraphDBFacade, AutoCloseable {
     @Override
     public Optional<GraphNode> getNodeById(String id) {
         try (Session session = driver.session()) {
-            String cypher = "MATCH (n) WHERE id(n) = $id RETURN n";
-            Result result = session.run(cypher, Collections.singletonMap("id", Long.parseLong(id)));
+            String cypher = "MATCH (n) WHERE elementId(n) = $id RETURN n";
+            Result result = session.run(cypher, Collections.singletonMap("id", id));
             if (result.hasNext()) {
                 Record record = result.next();
                 return Optional.of(GraphNodeMapper.from(record.get("n").asNode()));
@@ -82,10 +82,10 @@ public class Neo4jGraphDBFacade implements GraphDBFacade, AutoCloseable {
     @Override
     public GraphEdge createEdge(GraphNode from, GraphNode to, String type, Map<String, Object> properties) {
         try (Session session = driver.session()) {
-            String cypher = "MATCH (a), (b) WHERE id(a) = $fromId AND id(b) = $toId CREATE (a)-[r:" + type + "]->(b) SET r += $props RETURN r, a, b";
+            String cypher = "MATCH (a), (b) WHERE elementId(a) = $fromId AND elementId(b) = $toId CREATE (a)-[r:" + type + "]->(b) SET r += $props RETURN r, a, b";
             Map<String, Object> params = new HashMap<>();
-            params.put("fromId", Long.parseLong(from.getId()));
-            params.put("toId", Long.parseLong(to.getId()));
+            params.put("fromId", from.getId());
+            params.put("toId", to.getId());
             params.put("props", properties);
             Record record = session.executeWrite(tx -> tx.run(cypher, params).single());
             return GraphEdgeMapper.from(record.get("r").asRelationship(), from, to);
@@ -100,9 +100,9 @@ public class Neo4jGraphDBFacade implements GraphDBFacade, AutoCloseable {
                 case OUTGOING -> "(n)-[r" + rel + "]->(m)";
                 case INCOMING -> "(m)-[r" + rel + "]->(n)";
             };
-            String cypher = "MATCH " + pattern + " WHERE id(n) = $id RETURN r, n, m";
+            String cypher = "MATCH " + pattern + " WHERE elementId(n) = $id RETURN r, n, m";
             Map<String, Object> params = new HashMap<>();
-            params.put("id", Long.parseLong(node.getId()));
+            params.put("id", node.getId());
             Result result = session.run(cypher, params);
             List<GraphEdge> edges = new ArrayList<>();
             while (result.hasNext()) {

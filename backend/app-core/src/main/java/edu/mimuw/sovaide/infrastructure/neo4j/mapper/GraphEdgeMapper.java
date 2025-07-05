@@ -12,7 +12,7 @@ import lombok.experimental.UtilityClass;
 public class GraphEdgeMapper {
 
 	public static GraphEdge from(Relationship rel, GraphNode start, GraphNode end) {
-		String id = String.valueOf(rel.id());
+		String id = rel.elementId();
 		String type = rel.type();
 		Map<String, Object> properties = rel.asMap();
 		return new GraphEdge(id, type, start, end, properties);

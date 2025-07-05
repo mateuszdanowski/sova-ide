@@ -11,7 +11,7 @@ import lombok.experimental.UtilityClass;
 public class GraphNodeMapper {
 
 	public static GraphNode from(Node node) {
-		String id = String.valueOf(node.id());
+		String id = node.elementId();
 		String label = node.labels().iterator().hasNext() ? node.labels().iterator().next() : "";
 		Map<String, Object> properties = node.asMap();
 		return new GraphNode(id, label, properties);
