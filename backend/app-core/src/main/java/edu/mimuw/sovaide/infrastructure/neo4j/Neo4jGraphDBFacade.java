@@ -20,7 +20,9 @@ import edu.mimuw.sovaide.domain.graph.GraphEdge;
 import edu.mimuw.sovaide.domain.graph.GraphNode;
 import edu.mimuw.sovaide.infrastructure.neo4j.mapper.GraphEdgeMapper;
 import edu.mimuw.sovaide.infrastructure.neo4j.mapper.GraphNodeMapper;
+import lombok.extern.slf4j.Slf4j;
 
+@Slf4j
 public class Neo4jGraphDBFacade implements GraphDBFacade, AutoCloseable {
     private final Driver driver;
 
@@ -41,6 +43,29 @@ public class Neo4jGraphDBFacade implements GraphDBFacade, AutoCloseable {
             return GraphNodeMapper.from(record.get("n").asNode());
         }
     }
+
+	@Override
+	public Optional<GraphNode> updateNode(String id, Map<String, Object> properties) {
+		try (Session session = driver.session()) {
+			String cypher = "MATCH (n) WHERE elementId(n) = $id SET n += $props RETURN n";
+			Map<String, Object> params = new HashMap<>();
+			params.put("id", id);
+			params.put("props", properties);
+
+			Record record = session.executeWrite(tx -> {
+				Result result = tx.run(cypher, params);
+				return result.hasNext() ? result.next() : null;
+			});
+
+			if (record != null) {
+				return Optional.of(GraphNodeMapper.from(record.get("n").asNode()));
+			}
+			return Optional.empty();
+		} catch (Exception e) {
+			log.error("Error updating node with id {}: {}", id, e.getMessage());
+			return Optional.empty();
+		}
+	}
 
     @Override
     public Optional<GraphNode> getNodeById(String id) {

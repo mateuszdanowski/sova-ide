@@ -370,4 +370,119 @@ class Neo4jGraphDBFacadeTest {
         List<GraphNode> foundNodes = facade.findNodes("ConcurrentTest", Collections.emptyMap());
         assertEquals(5, foundNodes.size());
     }
+
+    @Test
+    @DisplayName("Should update existing node with new properties")
+    void testUpdateNode_Success() {
+        // Given
+        GraphNode createdNode = facade.createNode("Person", Map.of("name", "John", "age", 30));
+        Map<String, Object> updates = Map.of("age", 31, "city", "Warsaw");
+
+        // When
+        Optional<GraphNode> updatedNode = facade.updateNode(createdNode.getId(), updates);
+
+        // Then
+        assertTrue(updatedNode.isPresent());
+        assertEquals(createdNode.getId(), updatedNode.get().getId());
+        assertEquals("Person", updatedNode.get().getLabel());
+        assertEquals("John", updatedNode.get().getProperties().get("name")); // Original property preserved
+        assertEquals(31L, updatedNode.get().getProperties().get("age")); // Updated property
+        assertEquals("Warsaw", updatedNode.get().getProperties().get("city")); // New property
+    }
+
+    @Test
+    @DisplayName("Should update node with empty properties map")
+    void testUpdateNode_EmptyProperties() {
+        // Given
+        GraphNode createdNode = facade.createNode("Person", Map.of("name", "John"));
+        Map<String, Object> emptyUpdates = Collections.emptyMap();
+
+        // When
+        Optional<GraphNode> updatedNode = facade.updateNode(createdNode.getId(), emptyUpdates);
+
+        // Then
+        assertTrue(updatedNode.isPresent());
+        assertEquals(createdNode.getId(), updatedNode.get().getId());
+        assertEquals("John", updatedNode.get().getProperties().get("name")); // Original property preserved
+    }
+
+    @Test
+    @DisplayName("Should return empty when updating non-existent node")
+    void testUpdateNode_NonExistentNode() {
+        // Given
+        String nonExistentId = "999999";
+        Map<String, Object> updates = Map.of("name", "Updated Name");
+
+        // When
+        Optional<GraphNode> result = facade.updateNode(nonExistentId, updates);
+
+        // Then
+        assertFalse(result.isPresent());
+    }
+
+    @Test
+    @DisplayName("Should update node and preserve existing relationships")
+    void testUpdateNode_PreservesRelationships() {
+        // Given
+        GraphNode person = facade.createNode("Person", Map.of("name", "John"));
+        GraphNode company = facade.createNode("Company", Map.of("name", "TechCorp"));
+        facade.createEdge(person, company, "WORKS_FOR", Map.of("role", "Developer"));
+
+        // When
+        Optional<GraphNode> updatedPerson = facade.updateNode(person.getId(), Map.of("age", 30));
+
+        // Then
+        assertTrue(updatedPerson.isPresent());
+        assertEquals(30L, updatedPerson.get().getProperties().get("age"));
+
+        // Verify relationship still exists
+        List<GraphEdge> edges = facade.getEdges(updatedPerson.get(), "WORKS_FOR", EdgeDirection.OUTGOING);
+        assertEquals(1, edges.size());
+        assertEquals("Developer", edges.getFirst().getProperties().get("role"));
+    }
+
+    @Test
+    @DisplayName("Should handle special data types in update")
+    void testUpdateNode_SpecialDataTypes() {
+        // Given
+        GraphNode node = facade.createNode("TestNode", Map.of("initial", "value"));
+        Map<String, Object> updates = Map.of(
+            "text", "Updated text",
+            "number", 42,
+            "decimal", 3.14,
+            "boolean", true,
+            "list", List.of("item1", "item2")
+        );
+
+        // When
+        Optional<GraphNode> updatedNode = facade.updateNode(node.getId(), updates);
+
+        // Then
+        assertTrue(updatedNode.isPresent());
+        Map<String, Object> properties = updatedNode.get().getProperties();
+        assertEquals("Updated text", properties.get("text"));
+        assertEquals(42L, properties.get("number")); // Neo4j returns integers as Long
+        assertEquals(3.14, properties.get("decimal"));
+        assertEquals(true, properties.get("boolean"));
+        assertEquals(List.of("item1", "item2"), properties.get("list"));
+        assertEquals("value", properties.get("initial")); // Original property preserved
+    }
+
+    @Test
+    @DisplayName("Should overwrite existing property values")
+    void testUpdateNode_OverwriteExisting() {
+        // Given
+        GraphNode node = facade.createNode("Person", Map.of("name", "John", "age", 30, "city", "Krakow"));
+        Map<String, Object> updates = Map.of("name", "Johnny", "age", 31);
+
+        // When
+        Optional<GraphNode> updatedNode = facade.updateNode(node.getId(), updates);
+
+        // Then
+        assertTrue(updatedNode.isPresent());
+        Map<String, Object> properties = updatedNode.get().getProperties();
+        assertEquals("Johnny", properties.get("name")); // Overwritten
+        assertEquals(31L, properties.get("age")); // Overwritten
+        assertEquals("Krakow", properties.get("city")); // Preserved
+    }
 }

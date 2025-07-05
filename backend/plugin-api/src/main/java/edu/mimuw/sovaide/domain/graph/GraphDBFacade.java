@@ -7,9 +7,9 @@ import java.util.Optional;
 public interface GraphDBFacade {
 	// Nodes
 	GraphNode createNode(String label, Map<String, Object> properties);
+	Optional<GraphNode> updateNode(String id, Map<String, Object> properties);
 	Optional<GraphNode> getNodeById(String id);
 	List<GraphNode> findNodes(String label, Map<String, Object> filters);
-
 	// Edges
 	GraphEdge createEdge(GraphNode from, GraphNode to, String type, Map<String, Object> properties);
 	List<GraphEdge> getEdges(GraphNode node, String type, EdgeDirection direction);
