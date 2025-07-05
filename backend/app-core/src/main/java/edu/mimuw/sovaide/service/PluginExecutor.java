@@ -1,12 +1,23 @@
 package edu.mimuw.sovaide.service;
 
-import java.util.List;
+import static edu.mimuw.sovaide.constant.Constant.FILE_DIRECTORY;
+import static edu.mimuw.sovaide.constant.Constant.getLocalFilePath;
+import static java.nio.file.StandardCopyOption.REPLACE_EXISTING;
+
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
+import java.util.Optional;
+import java.util.function.BiFunction;
+import java.util.function.Function;
 
 import org.springframework.stereotype.Service;
+import org.springframework.web.multipart.MultipartFile;
+import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import edu.mimuw.sovaide.domain.graph.GraphDBFacade;
-import edu.mimuw.sovaide.domain.plugin.PluginSova;
 import edu.mimuw.sovaide.domain.model.repository.ProjectRepository;
+import edu.mimuw.sovaide.domain.plugin.PluginSova;
 import edu.mimuw.sovaide.plugin.PluginLoader;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -22,18 +33,49 @@ public class PluginExecutor {
 
 	private final GraphDBFacade graphDBFacade;
 
-	public void executeAll(String projectId) {
-		List<PluginSova> plugins = pluginLoader.getLoadedPlugins();
-		log.info("Executing plugins: {}", plugins);
+	public void executeWithFile(String projectId, String pluginName, MultipartFile file) {
+		PluginSova plugin = pluginLoader.getLoadedPlugins().stream()
+				.filter(p -> p.getName().equals(pluginName))
+				.findFirst()
+				.orElseThrow(() -> new IllegalArgumentException("Plugin not found: " + pluginName));
 
-		for (PluginSova plugin : plugins) {
-			try {
-				plugin.execute(projectId, repository, graphDBFacade);
-				log.info("Successfully executed plugin: {}", plugin.getClass().getName());
-			} catch (Exception e) {
-				log.error("Error executing plugin {}: {}",
-						plugin.getClass().getName(), e.getMessage(), e);
-			}
-		}
+		String fileUrl = fileFunction.apply(projectId, file);
+		String localFilePath = getLocalFilePath(projectId, fileUrl);
+
+		log.info("Executing plugin {} with file {} for project {}", pluginName, fileUrl, projectId);
+		plugin.execute(projectId, repository, graphDBFacade, localFilePath);
+		log.info("Plugin {} executed successfully with file {}", pluginName, fileUrl);
 	}
+
+	public void execute(String projectId, String pluginName) {
+		PluginSova plugin = pluginLoader.getLoadedPlugins().stream()
+				.filter(p -> p.getName().equals(pluginName))
+				.findFirst()
+				.orElseThrow(() -> new IllegalArgumentException("Plugin not found: " + pluginName));
+
+		log.info("Executing plugin {} for project {}", pluginName, projectId);
+		plugin.execute(projectId, repository, graphDBFacade, null);
+		log.info("Plugin {} executed successfully for project {}", pluginName, projectId);
+	}
+
+	private final Function<String, String> fileExtension = filename -> Optional.of(filename)
+			.filter(name -> name.contains("."))
+			.map(name -> name.substring(filename.lastIndexOf(".")))
+			.orElse(".jar");
+
+	private final BiFunction<String, MultipartFile, String> fileFunction = (id, file) -> {
+		String filename = id + fileExtension.apply(file.getOriginalFilename());
+		try {
+			Path fileStorageLocation = Paths.get(FILE_DIRECTORY).toAbsolutePath().normalize();
+			if (!Files.exists(fileStorageLocation)) {
+				Files.createDirectories(fileStorageLocation);
+			}
+			Files.copy(file.getInputStream(), fileStorageLocation.resolve(filename), REPLACE_EXISTING);
+			return ServletUriComponentsBuilder
+					.fromCurrentContextPath()
+					.path("/projects/file/" + filename).toUriString();
+		} catch (Exception exception) {
+			throw new RuntimeException("Unable to save file");
+		}
+	};
 }

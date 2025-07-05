@@ -4,7 +4,7 @@ plugins {
 }
 
 group = 'edu.mimuw.sovaide'
-version = '0.0.4-SNAPSHOT'
+version = '0.0.7-SNAPSHOT'
 
 java {
     toolchain {

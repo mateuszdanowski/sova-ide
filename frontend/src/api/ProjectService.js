@@ -14,6 +14,14 @@ export async function getProject(id) {
     return await axios.get(`${API_URL}/${id}`);
 }
 
+export async function getProjectPlugins(id) {
+    return await axios.get(`${API_URL}/${id}/plugins`);
+}
+
+export async function executePlugin(id) {
+    return await axios.post(`${API_URL}/${id}/plugins/execute`);
+}
+
 // export async function uploadFile(formData) {
 //     return await axios.put(`${API_URL}/file`, formData);
 // }
