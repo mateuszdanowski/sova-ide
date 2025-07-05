@@ -19,7 +19,7 @@
 - Plugin parsera JAR (zapis do bazy)
   + ✅ Logika parsowania
   + ✅ Logika zapisywania w bazie
-  + [na później] Implementacja parsera jako plugin
+  + ✅ Implementacja parsera jako plugin
 - Przemyślenie sposobu udostępniania API głównej aplikacji dla pluginów (np. przez GitHub Packages jako alternatywa dla Maven Central)
   + ✅ Budowanie plugin-api do maven local
   + [na później] Budowanie plugin-api do GitHub Packages
@@ -41,10 +41,12 @@
 ## PoC frontendu SOVA IDE (2 tygodnie)  
 **2 – 16 lipca**
 
-- Szkielet frontendu
-- Wrzucanie pliku `.jar` przez GUI
-- Widok listy zainstalowanych pluginów
-- Możliwość ręcznego odpalenia pluginu z GUI
+- ✅ Szkielet frontendu
+- ✅ Wrzucanie pliku `.jar` przez GUI
+- ✅ Widok listy zainstalowanych pluginów
+- ✅ Możliwość ręcznego odpalenia pluginu z GUI
+- ✅ [dodane później] Utworzenie pluginu tworzącego relację "imports"
+- ✅ [dodane później] Utworzenie drugiej fasady na bazę, z abstrakcją na wierzchołku i krawędzi
 - Mock output pluginu – liczba klas
   + Komponent React dla outputu wyświetlany w GUI
 - Dynamiczne renderowanie komponentu React dostarczonego przez plugin
@@ -75,8 +77,9 @@
 ## Rozwijanie frontendu do MVP (1 tydzień)  
 **13 – 20 sierpnia**
 
-- Wsparcie wielu projektów
-- Widok listy pluginów per projekt
+- ✅ Wsparcie wielu projektów
+- ✅ Widok listy pluginów per projekt
+- [dodane później] Pamiętanie o tym jaki plugin był odpalony w jakim projekcie
 
 ### Pisanie
 
