@@ -170,6 +170,22 @@ public class Neo4jGraphDBFacade implements GraphDBFacade, AutoCloseable {
         }
     }
 
+    @Override
+    public void deleteAllWithProperty(String propertyName, Object propertyValue) {
+        try (Session session = driver.session()) {
+            String cypher = "MATCH (n) WHERE n." + propertyName + " = $value DETACH DELETE n";
+            Map<String, Object> params = Map.of("value", propertyValue);
+
+            session.executeWrite(tx -> {
+                tx.run(cypher, params);
+                return null;
+            });
+        } catch (Exception e) {
+            log.error("Error deleting nodes with property {}={}: {}", propertyName, propertyValue, e.getMessage());
+            throw new RuntimeException("Failed to delete nodes with property " + propertyName + "=" + propertyValue, e);
+        }
+    }
+
 	@Override
     public void close() {
         driver.close();

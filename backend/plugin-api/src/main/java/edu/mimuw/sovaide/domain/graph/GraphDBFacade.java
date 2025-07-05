@@ -10,6 +10,8 @@ public interface GraphDBFacade {
 	Optional<GraphNode> updateNode(String id, Map<String, Object> properties);
 	Optional<GraphNode> getNodeById(String id);
 	List<GraphNode> findNodes(String label, Map<String, Object> filters);
+	void deleteAllWithProperty(String propertyName, Object propertyValue);
+
 	// Edges
 	GraphEdge createEdge(GraphNode from, GraphNode to, String type, Map<String, Object> properties);
 	List<GraphEdge> getEdges(GraphNode node, String type, EdgeDirection direction);

@@ -485,4 +485,101 @@ class Neo4jGraphDBFacadeTest {
         assertEquals(31L, properties.get("age")); // Overwritten
         assertEquals("Krakow", properties.get("city")); // Preserved
     }
+
+    @Test
+    @DisplayName("Should delete all nodes with specified property value")
+    void testDeleteAllWithProperty_Success() {
+        // Given
+        facade.createNode("Person", Map.of("name", "John", "projectId", "project-1"));
+        facade.createNode("Person", Map.of("name", "Jane", "projectId", "project-1"));
+        facade.createNode("Person", Map.of("name", "Bob", "projectId", "project-2"));
+        facade.createNode("Company", Map.of("name", "TechCorp", "projectId", "project-1"));
+
+        // When
+        facade.deleteAllWithProperty("projectId", "project-1");
+
+        // Then
+        List<GraphNode> remainingNodes = facade.findNodes("Person", Collections.emptyMap());
+        assertEquals(1, remainingNodes.size());
+        assertEquals("Bob", remainingNodes.getFirst().getProperties().get("name"));
+
+        List<GraphNode> remainingCompanies = facade.findNodes("Company", Collections.emptyMap());
+        assertEquals(0, remainingCompanies.size());
+    }
+
+    @Test
+    @DisplayName("Should delete nodes and their relationships")
+    void testDeleteAllWithProperty_WithRelationships() {
+        // Given
+        GraphNode person1 = facade.createNode("Person", Map.of("name", "John", "projectId", "project-1"));
+        GraphNode person2 = facade.createNode("Person", Map.of("name", "Jane", "projectId", "project-2"));
+        GraphNode company = facade.createNode("Company", Map.of("name", "TechCorp", "projectId", "project-1"));
+
+        facade.createEdge(person1, company, "WORKS_FOR", Collections.emptyMap());
+        facade.createEdge(person2, person1, "KNOWS", Collections.emptyMap());
+
+        // When
+        facade.deleteAllWithProperty("projectId", "project-1");
+
+        // Then
+        List<GraphNode> remainingPersons = facade.findNodes("Person", Collections.emptyMap());
+        assertEquals(1, remainingPersons.size());
+        assertEquals("Jane", remainingPersons.getFirst().getProperties().get("name"));
+
+        // Verify relationships are also deleted
+        List<GraphEdge> edges = facade.getEdges(remainingPersons.getFirst(), null, EdgeDirection.OUTGOING);
+        assertEquals(0, edges.size()); // The KNOWS relationship should be deleted since person1 was deleted
+    }
+
+    @Test
+    @DisplayName("Should handle deletion when no nodes match the property")
+    void testDeleteAllWithProperty_NoMatches() {
+        // Given
+        facade.createNode("Person", Map.of("name", "John", "projectId", "project-1"));
+
+        // When - delete with non-existent property value
+        facade.deleteAllWithProperty("projectId", "non-existent");
+
+        // Then - original node should still exist
+        List<GraphNode> nodes = facade.findNodes("Person", Collections.emptyMap());
+        assertEquals(1, nodes.size());
+        assertEquals("John", nodes.getFirst().getProperties().get("name"));
+    }
+
+    @Test
+    @DisplayName("Should handle deletion with different data types")
+    void testDeleteAllWithProperty_DifferentDataTypes() {
+        // Given
+        facade.createNode("Task", Map.of("id", 123, "status", "active"));
+        facade.createNode("Task", Map.of("id", 456, "status", "active"));
+        facade.createNode("Task", Map.of("id", 789, "status", "completed"));
+
+        // When - delete by integer property
+        facade.deleteAllWithProperty("id", 123);
+
+        // Then
+        List<GraphNode> remainingTasks = facade.findNodes("Task", Collections.emptyMap());
+        assertEquals(2, remainingTasks.size());
+        assertTrue(remainingTasks.stream().noneMatch(task ->
+            Integer.valueOf(123).equals(task.getProperties().get("id"))));
+    }
+
+    @Test
+    @DisplayName("Should handle deletion with boolean properties")
+    void testDeleteAllWithProperty_BooleanProperty() {
+        // Given
+        facade.createNode("User", Map.of("name", "John", "active", true));
+        facade.createNode("User", Map.of("name", "Jane", "active", true));
+        facade.createNode("User", Map.of("name", "Bob", "active", false));
+
+        // When - delete inactive users
+        facade.deleteAllWithProperty("active", false);
+
+        // Then
+        List<GraphNode> remainingUsers = facade.findNodes("User", Collections.emptyMap());
+        assertEquals(2, remainingUsers.size());
+        assertTrue(remainingUsers.stream().allMatch(user ->
+            Boolean.TRUE.equals(user.getProperties().get("active"))));
+    }
+
 }
