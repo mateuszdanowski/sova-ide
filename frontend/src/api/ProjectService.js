@@ -14,9 +14,9 @@ export async function getProject(id) {
     return await axios.get(`${API_URL}/${id}`);
 }
 
-export async function uploadFile(formData) {
-    return await axios.put(`${API_URL}/file`, formData);
-}
+// export async function uploadFile(formData) {
+//     return await axios.put(`${API_URL}/file`, formData);
+// }
 
 export async function deleteProject(id) {
     return await axios.delete(`${API_URL}/${id}`);

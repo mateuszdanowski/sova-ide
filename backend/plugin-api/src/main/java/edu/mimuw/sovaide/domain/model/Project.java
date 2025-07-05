@@ -14,10 +14,10 @@ import lombok.Setter;
 public class Project {
 	private String id;
 	private String name;
-	private String fileUrl;
-	private String status = "NOT ANALYZED";
-	private Long noOfClasses;
-	private Long noOfImports;
-	private Long avgLinesOfCode;
+//	private String fileUrl;
+//	private String status = "NOT ANALYZED";
+//	private Long noOfClasses;
+//	private Long noOfImports;
+//	private Long avgLinesOfCode;
 	private List<File> files;
 }

@@ -1,5 +1,5 @@
 import {useEffect, useRef, useState} from "react";
-import {getProjects, saveProject, uploadFile} from "./api/ProjectService";
+import {getProjects, saveProject} from "./api/ProjectService";
 import Header from "./components/Header";
 import ProjectList from "./components/ProjectList";
 import {Navigate, Route, Routes} from "react-router-dom";
@@ -7,16 +7,16 @@ import ProjectDetail from "./components/ProjectDetail";
 
 function App() {
   const modalRef = useRef();
-  const fileRef = useRef();
+  // const fileRef = useRef();
   const [data, setData] = useState({});
-  const [file, setFile] = useState(undefined);
+  // const [file, setFile] = useState(undefined);
   const [values, setValues] = useState({
     name: '',
-    language: '',
-    status: '',
-    noOfClasses: 0,
-    noOfImports: 0,
-    avgLinesOfCode: 0,
+    // language: '',
+    // status: '',
+    // noOfClasses: 0,
+    // noOfImports: 0,
+    // avgLinesOfCode: 0,
   });
 
 
@@ -38,20 +38,21 @@ function App() {
     event.preventDefault();
     try {
       const { data } = await saveProject(values);
-      const formData = new FormData();
-      formData.append('file', file, file.name);
-      formData.append('id', data.id);
-      const fileUrl = await updateFile(formData);
-      console.log(fileUrl)
+      console.log(data);
+      // const formData = new FormData();
+      // formData.append('file', file, file.name);
+      // formData.append('id', data.id);
+      // const fileUrl = await updateFile(formData);
+      // console.log(fileUrl)
       toggleModal(false);
-      setFile(undefined);
-      fileRef.current.value = null;
+      // setFile(undefined);
+      // fileRef.current.value = null;
       setValues({
         name: '',
-        status: '',
-        noOfClasses: 0,
-        noOfImports: 0,
-        avgLinesOfCode: 0,
+        // status: '',
+        // noOfClasses: 0,
+        // noOfImports: 0,
+        // avgLinesOfCode: 0,
       })
       getAllProjects();
     } catch (error) {
@@ -59,14 +60,14 @@ function App() {
     }
   }
 
-  const updateFile = async (formData) => {
-    try {
-      const { data: fileUrl } = await uploadFile(formData);
-      return fileUrl;
-    } catch (error) {
-      console.log(error);
-    }
-  }
+  // const updateFile = async (formData) => {
+  //   try {
+  //     const { data: fileUrl } = await uploadFile(formData);
+  //     return fileUrl;
+  //   } catch (error) {
+  //     console.log(error);
+  //   }
+  // }
 
   const toggleModal = (show) => show ? modalRef.current.showModal() : modalRef.current.close();
 
@@ -101,14 +102,14 @@ function App() {
                 <span className="details">Name</span>
                 <input type="text" value={values.name} onChange={onChange} name='name' required />
               </div>
-              <div className="file-input">
-                <span className="details">Project File</span>
-                <input type="file" onChange={(event) => setFile(event.target.files[0])} ref={fileRef} name='file' required />
-              </div>
+              {/*<div className="file-input">*/}
+              {/*  <span className="details">Project File</span>*/}
+              {/*  <input type="file" onChange={(event) => setFile(event.target.files[0])} ref={fileRef} name='file' required />*/}
+              {/*</div>*/}
             </div>
             <div className="form_footer">
               <button onClick={() => toggleModal(false)} type='button' className="btn btn-danger">Cancel</button>
-              <button type='submit' className="btn">Save</button>
+              <button type='submit' className="btn">Add</button>
             </div>
           </form>
         </div>

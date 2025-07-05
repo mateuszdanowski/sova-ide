@@ -38,37 +38,37 @@ public class JarParseService {
 	private final ProjectRepository projectRepository;
 
 	public void parse(Project project) {
-		String projectId = project.getId();
-		String localFilePath = getLocalFilePath(projectId, project.getFileUrl());
-		List<File> allFiles = new ArrayList<>();
-
-		try (JarFile jarFile = new JarFile(localFilePath)) {
-			log.info("Parsing JAR file: {}", localFilePath);
-			Enumeration<JarEntry> entries = jarFile.entries();
-			while (entries.hasMoreElements()) {
-				JarEntry entry = entries.nextElement();
-				if (entry.isDirectory()) continue;
-				String entryName = entry.getName();
-				String content;
-				try (InputStream is = jarFile.getInputStream(entry)) {
-					content = new String(is.readAllBytes(), StandardCharsets.UTF_8);
-					FileKind kind = readFileKind(entryName);
-					List<Entity> entities = findEntities(entryName, content, kind, projectId);
-					File file = new File();
-					file.setProjectId(projectId);
-					file.setKind(kind);
-					file.setPath(entryName);
-					file.setContent(content);
-					file.setEntities(entities);
-					allFiles.add(file);
-				}
-			}
-		} catch (IOException ex) {
-			throw new RuntimeException(ex);
-		}
-
-		project.setFiles(allFiles);
-		projectRepository.save(project);
+//		String projectId = project.getId();
+//		String localFilePath = getLocalFilePath(projectId, project.getFileUrl());
+//		List<File> allFiles = new ArrayList<>();
+//
+//		try (JarFile jarFile = new JarFile(localFilePath)) {
+//			log.info("Parsing JAR file: {}", localFilePath);
+//			Enumeration<JarEntry> entries = jarFile.entries();
+//			while (entries.hasMoreElements()) {
+//				JarEntry entry = entries.nextElement();
+//				if (entry.isDirectory()) continue;
+//				String entryName = entry.getName();
+//				String content;
+//				try (InputStream is = jarFile.getInputStream(entry)) {
+//					content = new String(is.readAllBytes(), StandardCharsets.UTF_8);
+//					FileKind kind = readFileKind(entryName);
+//					List<Entity> entities = findEntities(entryName, content, kind, projectId);
+//					File file = new File();
+//					file.setProjectId(projectId);
+//					file.setKind(kind);
+//					file.setPath(entryName);
+//					file.setContent(content);
+//					file.setEntities(entities);
+//					allFiles.add(file);
+//				}
+//			}
+//		} catch (IOException ex) {
+//			throw new RuntimeException(ex);
+//		}
+//
+//		project.setFiles(allFiles);
+//		projectRepository.save(project);
 	}
 
 	private List<Entity> findEntities(String entryName, String content, FileKind kind, String projectId) {

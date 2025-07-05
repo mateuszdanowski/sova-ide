@@ -45,16 +45,17 @@ public class ProjectService {
 	}
 
 	public String uploadFile(String id, MultipartFile file) {
-		log.info("Saving file for project {}", id);
-		Project project = getProject(id);
-		String fileUrl = fileFunction.apply(id, file);
-		project.setFileUrl(fileUrl);
-		log.info("File saved for project {} under {}", id, fileUrl);
-
-		Project savedProject = repository.save(project);
-		analysisService.analyzeProjectAsync(savedProject);
-
-		return fileUrl;
+//		log.info("Saving file for project {}", id);
+//		Project project = getProject(id);
+//		String fileUrl = fileFunction.apply(id, file);
+//		project.setFileUrl(fileUrl);
+//		log.info("File saved for project {} under {}", id, fileUrl);
+//
+//		Project savedProject = repository.save(project);
+//		analysisService.analyzeProjectAsync(savedProject);
+//
+//		return fileUrl;
+		return "";
 	}
 
 	private final Function<String, String> fileExtension = filename -> Optional.of(filename)
