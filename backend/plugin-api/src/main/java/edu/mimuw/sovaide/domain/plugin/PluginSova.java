@@ -10,5 +10,5 @@ public interface PluginSova {
 
 	boolean isAcceptingFile();
 
-    void execute(String projectId, ProjectRepository repository, GraphDBFacade graphDBFacade, String fileUrl);
+    PluginResult execute(String projectId, ProjectRepository repository, GraphDBFacade graphDBFacade, String fileUrl);
 }

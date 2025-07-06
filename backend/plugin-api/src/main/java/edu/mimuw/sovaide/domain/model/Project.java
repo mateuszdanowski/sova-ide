@@ -2,6 +2,7 @@ package edu.mimuw.sovaide.domain.model;
 
 import java.util.List;
 
+import edu.mimuw.sovaide.domain.plugin.PluginResult;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -14,10 +15,6 @@ import lombok.Setter;
 public class Project {
 	private String id;
 	private String name;
-//	private String fileUrl;
-//	private String status = "NOT ANALYZED";
-//	private Long noOfClasses;
-//	private Long noOfImports;
-//	private Long avgLinesOfCode;
 	private List<File> files;
+	private List<PluginResult> results;
 }

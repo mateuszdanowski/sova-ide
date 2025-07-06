@@ -22,13 +22,9 @@ public class Neo4jProject {
     @GeneratedValue
     private String id;
     private String name;
-//    private String language;
     @Relationship(type = "HAS", direction = Relationship.Direction.OUTGOING)
     private List<Neo4jFile> files;
-//
-//    private String fileUrl;
-//    @Builder.Default private String status = "NOT ANALYZED";
-//    private Long noOfClasses;
-//    private Long noOfImports;
-//    private Long avgLinesOfCode;
+
+	@Relationship(type = "RESULT", direction = Relationship.Direction.OUTGOING)
+	private List<Neo4jPluginResult> results;
 }

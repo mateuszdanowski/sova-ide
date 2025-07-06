@@ -17,6 +17,7 @@ import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import edu.mimuw.sovaide.domain.graph.GraphDBFacade;
 import edu.mimuw.sovaide.domain.model.repository.ProjectRepository;
+import edu.mimuw.sovaide.domain.plugin.PluginResult;
 import edu.mimuw.sovaide.domain.plugin.PluginSova;
 import edu.mimuw.sovaide.plugin.PluginLoader;
 import lombok.RequiredArgsConstructor;
@@ -31,6 +32,8 @@ public class PluginExecutor {
 
 	private final ProjectRepository repository;
 
+	private final ProjectService projectService;
+
 	private final GraphDBFacade graphDBFacade;
 
 	public void executeWithFile(String projectId, String pluginName, MultipartFile file) {
@@ -43,8 +46,12 @@ public class PluginExecutor {
 		String localFilePath = getLocalFilePath(projectId, fileUrl);
 
 		log.info("Executing plugin {} with file {} for project {}", pluginName, fileUrl, projectId);
-		plugin.execute(projectId, repository, graphDBFacade, localFilePath);
+		PluginResult result = plugin.execute(projectId, repository, graphDBFacade, localFilePath);
 		log.info("Plugin {} executed successfully with file {}", pluginName, fileUrl);
+
+		if (result != null) {
+			projectService.savePluginResult(result);
+		}
 	}
 
 	public void execute(String projectId, String pluginName) {
@@ -54,8 +61,12 @@ public class PluginExecutor {
 				.orElseThrow(() -> new IllegalArgumentException("Plugin not found: " + pluginName));
 
 		log.info("Executing plugin {} for project {}", pluginName, projectId);
-		plugin.execute(projectId, repository, graphDBFacade, null);
+		PluginResult result = plugin.execute(projectId, repository, graphDBFacade, null);
 		log.info("Plugin {} executed successfully for project {}", pluginName, projectId);
+
+		if (result != null) {
+			projectService.savePluginResult(result);
+		}
 	}
 
 	private final Function<String, String> fileExtension = filename -> Optional.of(filename)

@@ -63,29 +63,17 @@ const ProjectDetail = () => {
           <ul className='plugin-list'>
             {plugins?.length > 0 && plugins.filter(p => p.type === 'INPUT')
               .map(plugin => (
-                <Plugin key={plugin.name} plugin={{
-                  name: plugin.name,
-                  type: plugin.type,
-                  acceptingFile: plugin.acceptingFile !== undefined ? plugin.acceptingFile : plugin.accepting_file // fallback for backend naming
-                }} projectId={id} />
+                <Plugin key={plugin.name} plugin={plugin} projectId={id} />
               ))}
           </ul>
-            {/*<li>JARs parser</li>*/}
-            {/*<li>Log file parser</li>*/}
         </div>
         <div className="plugin-column">
           <h3>Output plugins</h3>
           <ul className="plugin-list">
             {plugins?.length > 0 && plugins.filter(p => p.type === 'OUTPUT')
               .map(plugin => (
-                <Plugin key={plugin.name} plugin={{
-                  name: plugin.name,
-                  type: plugin.type,
-                  acceptingFile: plugin.acceptingFile !== undefined ? plugin.acceptingFile : plugin.accepting_file
-                }} projectId={id} />
+                <Plugin key={plugin.name} plugin={plugin} projectId={id} />
               ))}
-            {/*<li>Imports relation creator</li>*/}
-            {/*<li>Imports relation visualizer</li>*/}
           </ul>
         </div>
       </div>

@@ -9,17 +9,18 @@ public class ProjectMapper {
         Project project = new Project();
         project.setId(neo4jProject.getId());
         project.setName(neo4jProject.getName());
-//        project.setFileUrl(neo4jProject.getFileUrl());
-//        project.setStatus(neo4jProject.getStatus());
-//        project.setNoOfClasses(neo4jProject.getNoOfClasses());
-//        project.setNoOfImports(neo4jProject.getNoOfImports());
-//        project.setAvgLinesOfCode(neo4jProject.getAvgLinesOfCode());
         project.setFiles(
             neo4jProject.getFiles() == null ? null :
                 neo4jProject.getFiles().stream()
                     .map(FileMapper::toDomain)
                     .toList()
         );
+		project.setResults(
+			neo4jProject.getResults() == null ? null :
+				neo4jProject.getResults().stream()
+					.map(PluginResultMapper::toDomain)
+					.toList()
+		);
         return project;
     }
 
@@ -28,18 +29,18 @@ public class ProjectMapper {
         return Neo4jProject.builder()
             .id(project.getId())
             .name(project.getName())
-//            .language("java")
-//            .fileUrl(project.getFileUrl())
-//            .status(project.getStatus())
-//            .noOfClasses(project.getNoOfClasses())
-//            .noOfImports(project.getNoOfImports())
-//            .avgLinesOfCode(project.getAvgLinesOfCode())
             .files(
                 project.getFiles() == null ? null :
                     project.getFiles().stream()
                         .map(FileMapper::fromDomain)
                         .toList()
             )
+			.results(
+				project.getResults() == null ? null :
+					project.getResults().stream()
+						.map(PluginResultMapper::fromDomain)
+						.toList()
+			)
             .build();
     }
 }

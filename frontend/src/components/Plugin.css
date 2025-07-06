@@ -1,0 +1,17 @@
+.plugin-action-row {
+  display: flex;
+  gap: 8px;
+  margin-top: 8px;
+}
+
+.plugin-btn-disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+.plugin-no-result {
+  color: #888;
+  font-size: 0.9em;
+  margin-top: 4px;
+}
+

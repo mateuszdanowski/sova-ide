@@ -1,5 +1,7 @@
 import React, { useRef, useState } from 'react';
+import { Link } from 'react-router-dom';
 import '../components/ProjectDetail.css';
+import '../components/Plugin.css';
 
 const Plugin = ({ plugin, projectId, onExecuted }) => {
   const fileInputRef = useRef(null);
@@ -59,26 +61,52 @@ const Plugin = ({ plugin, projectId, onExecuted }) => {
       <div><b>Name:</b> {plugin.name}</div>
       <div><b>Type:</b> {plugin.type}</div>
       <div><b>Accepting file:</b> {plugin.acceptingFile ? 'Yes' : 'No'}</div>
-      {plugin.acceptingFile ? (
-        <>
+      <div className="plugin-action-row">
+        {/* Execute or Send file & Execute Button */}
+        {plugin.acceptingFile ? (
+          <>
+            <button
+              className={`btn${!plugin.acceptingFile ? ' plugin-btn-disabled' : ''}`}
+              onClick={() => fileInputRef.current && fileInputRef.current.click()}
+              disabled={loading || !plugin.acceptingFile}
+            >
+              {loading && plugin.acceptingFile ? 'Sending...' : 'Send file & Execute'}
+            </button>
+            <input
+              type="file"
+              style={{ display: 'none' }}
+              ref={fileInputRef}
+              onChange={handleFileChange}
+            />
+          </>
+        ) : (
           <button
-            className="btn"
-            onClick={() => fileInputRef.current && fileInputRef.current.click()}
-            disabled={loading}
+            className={`btn${!plugin.executable ? ' plugin-btn-disabled' : ''}`}
+            onClick={handleExecute}
+            disabled={loading || !plugin.executable}
           >
-            {loading ? 'Sending...' : 'Send file & Execute'}
+            {loading && plugin.executable ? 'Executing...' : 'Execute'}
           </button>
-          <input
-            type="file"
-            style={{ display: 'none' }}
-            ref={fileInputRef}
-            onChange={handleFileChange}
-          />
-        </>
-      ) : (
-        <button className="btn" onClick={handleExecute} disabled={loading}>
-          {loading ? 'Executing...' : 'Execute'}
-        </button>
+        )}
+        {/* View Result Button */}
+        <Link
+          to={`/plugin-result/${projectId}/${encodeURIComponent(plugin.name)}`}
+          state={{ result: plugin.result }}
+          className={`btn${(!plugin.viewable || !plugin.result) ? ' plugin-btn-disabled' : ''}`}
+          style={{
+            pointerEvents: (!plugin.viewable || !plugin.result) ? 'none' : 'auto',
+            textDecoration: 'none',
+            display: 'inline-block'
+          }}
+        >
+          View Result
+        </Link>
+      </div>
+      {/* Show message if result is not available */}
+      {plugin.viewable && !plugin.result && (
+        <div className="plugin-no-result">
+          No result yet.
+        </div>
       )}
       {error && <div className="error-message">{error}</div>}
     </li>
