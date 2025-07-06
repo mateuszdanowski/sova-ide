@@ -1,7 +1,9 @@
 import D3Graph from './D3Graph';
+import Custom from './Custom';
 
 const componentRegistry = {
   D3Graph,
+  Custom
   // More components to be added
 };
 
