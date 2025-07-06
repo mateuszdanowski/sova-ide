@@ -47,9 +47,13 @@
 - ✅ Możliwość ręcznego odpalenia pluginu z GUI
 - ✅ [dodane później] Utworzenie pluginu tworzącego relację "imports"
 - ✅ [dodane później] Utworzenie drugiej fasady na bazę, z abstrakcją na wierzchołku i krawędzi
-- Mock output pluginu – liczba klas
+- ✅ [dodane później] Utworzenie pluginu wyświetlającego relację "imports" na klasach/interfejsach
+- ✅ Mock output pluginu – liczba klas
   + Komponent React dla outputu wyświetlany w GUI
 - Dynamiczne renderowanie komponentu React dostarczonego przez plugin
+- [dodane później] Dodanie zależności pomiędzy pluginami
+
+---
 
 ### Pisanie (1 tydzień)  
 **16 – 23 lipca**
@@ -79,7 +83,7 @@
 
 - ✅ Wsparcie wielu projektów
 - ✅ Widok listy pluginów per projekt
-- [dodane później] Pamiętanie o tym jaki plugin był odpalony w jakim projekcie
+- ✅ Pamiętanie o tym jaki plugin był odpalony w jakim projekcie
 
 ### Pisanie
 
