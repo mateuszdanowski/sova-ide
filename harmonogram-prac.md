@@ -68,7 +68,7 @@
 **23 lipca – 6 sierpnia**
 
 - Drugi parser plugin – np. projekt z GitHuba w Javie lub plik `.log`
-- Drugi output plugin – np. wizualizacja relacji importów między pakietami
+- ✅ Drugi output plugin – np. wizualizacja relacji importów między pakietami
 
 ### Pisanie (1 tydzień)  
 **6 – 13 sierpnia**
