@@ -17,6 +17,7 @@ import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import edu.mimuw.sovaide.domain.graph.GraphDBFacade;
 import edu.mimuw.sovaide.domain.model.repository.ProjectRepository;
+import edu.mimuw.sovaide.domain.plugin.DatabaseInterfaces;
 import edu.mimuw.sovaide.domain.plugin.PluginResult;
 import edu.mimuw.sovaide.domain.plugin.PluginSova;
 import edu.mimuw.sovaide.plugin.PluginLoader;
@@ -46,7 +47,7 @@ public class PluginExecutor {
 		String localFilePath = getLocalFilePath(projectId, fileUrl);
 
 		log.info("Executing plugin {} with file {} for project {}", pluginName, fileUrl, projectId);
-		PluginResult result = plugin.execute(projectId, repository, graphDBFacade, localFilePath);
+		PluginResult result = plugin.execute(projectId, new DatabaseInterfaces(repository, graphDBFacade), localFilePath);
 		log.info("Plugin {} executed successfully with file {}", pluginName, fileUrl);
 
 		if (result != null) {
@@ -61,7 +62,7 @@ public class PluginExecutor {
 				.orElseThrow(() -> new IllegalArgumentException("Plugin not found: " + pluginName));
 
 		log.info("Executing plugin {} for project {}", pluginName, projectId);
-		PluginResult result = plugin.execute(projectId, repository, graphDBFacade, null);
+		PluginResult result = plugin.execute(projectId, new DatabaseInterfaces(repository, graphDBFacade), null);
 		log.info("Plugin {} executed successfully for project {}", pluginName, projectId);
 
 		if (result != null) {
