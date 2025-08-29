@@ -2,6 +2,7 @@ package edu.mimuw.sovaide.resource;
 
 import java.net.URI;
 import java.util.List;
+import java.util.Map;
 
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -16,7 +17,7 @@ import org.springframework.web.multipart.MultipartFile;
 
 import edu.mimuw.sovaide.domain.model.Project;
 import edu.mimuw.sovaide.plugin.PluginDTO;
-import edu.mimuw.sovaide.service.PluginExecutor;
+import edu.mimuw.sovaide.plugin.PluginManager;
 import edu.mimuw.sovaide.service.ProjectService;
 import lombok.RequiredArgsConstructor;
 
@@ -25,7 +26,7 @@ import lombok.RequiredArgsConstructor;
 @RequiredArgsConstructor
 public class ProjectResource {
 	private final ProjectService projectService;
-	private final PluginExecutor pluginExecutor;
+	private final PluginManager pluginManager;
 
 	@PostMapping
 	public ResponseEntity<Project> createProject(@RequestBody Project project) {
@@ -44,7 +45,7 @@ public class ProjectResource {
 
 	@GetMapping("/{id}/plugins")
 	public ResponseEntity<List<PluginDTO>> getProjectPlugins(@PathVariable(value = "id") String id) {
-		return ResponseEntity.ok().body(projectService.getPlugins(id));
+		return ResponseEntity.ok().body(pluginManager.getPlugins(id));
 	}
 
 	@PostMapping("/{id}/plugins/execute-with-file")
@@ -54,17 +55,18 @@ public class ProjectResource {
 			@RequestParam("file") MultipartFile file
 	) {
 		System.out.println("Executing plugin " + pluginName + " for project " + projectId + " with file upload");
-		pluginExecutor.executeWithFile(projectId, pluginName, file);
+		pluginManager.executeWithFile(projectId, pluginName, file);
 		return ResponseEntity.noContent().build();
 	}
 
 	@PostMapping("/{id}/plugins/execute")
 	public ResponseEntity<Void> executePlugin(
 			@PathVariable(value = "id") String projectId,
-			@RequestParam("pluginName") String pluginName
+			@RequestParam("pluginName") String pluginName,
+			@RequestBody Map<String, String> properties
 	) {
-		System.out.println("Executing plugin " + pluginName + " for project " + projectId);
-		pluginExecutor.execute(projectId, pluginName);
+		System.out.println("Executing plugin " + pluginName + " for project " + projectId + " with properties" + properties);
+		pluginManager.execute(projectId, pluginName, properties);
 		return ResponseEntity.noContent().build();
 	}
 

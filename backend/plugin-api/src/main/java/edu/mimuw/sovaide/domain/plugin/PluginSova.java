@@ -1,7 +1,6 @@
 package edu.mimuw.sovaide.domain.plugin;
 
-import edu.mimuw.sovaide.domain.graph.GraphDBFacade;
-import edu.mimuw.sovaide.domain.model.repository.ProjectRepository;
+import java.util.List;
 
 public interface PluginSova {
 	String getName();
@@ -10,5 +9,9 @@ public interface PluginSova {
 
 	boolean isAcceptingFile();
 
-    PluginResult execute(String projectId, DatabaseInterfaces databaseInterfaces, String fileUrl);
+	default List<String> getStringInputs() {
+		return List.of();
+	}
+
+    PluginResult execute(String projectId, DatabaseInterfaces databaseInterfaces, UserInput userInput);
 }

@@ -1,5 +1,7 @@
 package edu.mimuw.sovaide.plugin;
 
+import java.util.List;
+
 import edu.mimuw.sovaide.domain.plugin.PluginResult;
 
 public record PluginDTO(
@@ -8,5 +10,6 @@ public record PluginDTO(
 		boolean acceptingFile,
 		PluginResult result,
 		boolean executable,
-		boolean viewable) {
+		boolean viewable,
+		List<String> stringInputs) {
 }
