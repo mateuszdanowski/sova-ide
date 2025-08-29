@@ -1,6 +1,6 @@
 import React from 'react';
 import { useParams, useLocation } from 'react-router-dom';
-import componentRegistry from './ComponentRegistry';
+import pluginResultComponentRegistry from './PluginResultComponentRegistry';
 
 const PluginResult = () => {
   const { pluginName } = useParams();
@@ -9,7 +9,7 @@ const PluginResult = () => {
 
   if (!result || !result.guiComponentData) return <div>No result available.</div>;
 
-  const Comp = componentRegistry[result.guiComponentData.componentType];
+  const Comp = pluginResultComponentRegistry[result.guiComponentData.componentType];
   if (!Comp) return <div style={{ color: 'red' }}>Unknown component type: {result.guiComponentData.componentType}</div>;
 
   return (

@@ -7,19 +7,39 @@ const Plugin = ({ plugin, projectId, onExecuted }) => {
   const fileInputRef = useRef(null);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
+  const [showPropertiesDialog, setShowPropertiesDialog] = useState(false);
+  const [properties, setProperties] = useState({});
 
   const handleExecute = async () => {
+    // Check if plugin has string inputs that require a dialog
+    if (plugin.stringInputs && plugin.stringInputs.length > 0) {
+      // Initialize properties object with empty values
+      const initialProperties = {};
+      plugin.stringInputs.forEach(input => {
+        initialProperties[input] = '';
+      });
+      setProperties(initialProperties);
+      setShowPropertiesDialog(true);
+      return;
+    }
+
+    // If no properties needed, execute directly
+    await executeWithProperties({});
+  };
+
+  const executeWithProperties = async (propertiesToSend) => {
     setLoading(true);
     setError(null);
-    const formData = new FormData();
-    formData.append('pluginName', plugin.name);
 
     try {
       const response = await fetch(
-        `http://localhost:8080/projects/${projectId}/plugins/execute`,
+        `http://localhost:8080/projects/${projectId}/plugins/execute?pluginName=${encodeURIComponent(plugin.name)}`,
         {
           method: 'POST',
-          body: formData,
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify(propertiesToSend),
         }
       );
       if (!response.ok) throw new Error('Execution failed');
@@ -29,6 +49,32 @@ const Plugin = ({ plugin, projectId, onExecuted }) => {
     } finally {
       setLoading(false);
     }
+  };
+
+  const handlePropertiesSubmit = () => {
+    // Check if all properties are filled
+    const allFilled = Object.values(properties).every(value => value.trim() !== '');
+    if (!allFilled) {
+      setError('All properties must be filled');
+      return;
+    }
+
+    setShowPropertiesDialog(false);
+    setError(null);
+    executeWithProperties(properties);
+  };
+
+  const handlePropertyChange = (propertyName, value) => {
+    setProperties(prev => ({
+      ...prev,
+      [propertyName]: value
+    }));
+  };
+
+  const handleDialogCancel = () => {
+    setShowPropertiesDialog(false);
+    setProperties({});
+    setError(null);
   };
 
   const handleFileChange = async (e) => {
@@ -70,7 +116,7 @@ const Plugin = ({ plugin, projectId, onExecuted }) => {
               onClick={() => fileInputRef.current && fileInputRef.current.click()}
               disabled={loading || !plugin.acceptingFile}
             >
-              {loading && plugin.acceptingFile ? 'Sending...' : 'Send file & Execute'}
+              {loading && plugin.acceptingFile ? 'Executing...' : 'Send file & Execute'}
             </button>
             <input
               type="file"
@@ -109,6 +155,30 @@ const Plugin = ({ plugin, projectId, onExecuted }) => {
         </div>
       )}
       {error && <div className="error-message">{error}</div>}
+
+      {/* Properties Dialog */}
+      {showPropertiesDialog && (
+        <div className="properties-dialog">
+          <div className="properties-dialog-content">
+            <h3>Enter input properties for {plugin.name}</h3>
+            {plugin.stringInputs && plugin.stringInputs.map((input, index) => (
+              <div key={index} className="property-input-group">
+                <label>{input}:</label>
+                <input
+                  type="text"
+                  value={properties[input] || ''}
+                  onChange={(e) => handlePropertyChange(input, e.target.value)}
+                />
+              </div>
+            ))}
+            {error && <div className="error-message">{error}</div>}
+            <div className="properties-dialog-actions">
+              <button onClick={handlePropertiesSubmit} className="btn">Submit</button>
+              <button onClick={handleDialogCancel} className="btn btn-cancel">Cancel</button>
+            </div>
+          </div>
+        </div>
+      )}
     </li>
   );
 };

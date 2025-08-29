@@ -13,6 +13,7 @@ const ProjectDetail = () => {
     name: "",
   });
   const [plugins, setPlugins] = useState([]);
+  const [showDeleteDialog, setShowDeleteDialog] = useState(false);
 
   const { id } = useParams();
 
@@ -40,8 +41,12 @@ const ProjectDetail = () => {
     fetchPlugins(id);
   }, [id]);
 
-  const handleDeleteProject = async (event) => {
+  const handleDeleteProject = (event) => {
     event.preventDefault();
+    setShowDeleteDialog(true);
+  }
+
+  const confirmDeleteProject = async () => {
     try {
       const { data } = await deleteProject(id);
       console.log(data);
@@ -49,6 +54,15 @@ const ProjectDetail = () => {
     } catch (error) {
       console.log(error);
     }
+  }
+
+  const cancelDeleteProject = () => {
+    setShowDeleteDialog(false);
+  }
+
+  const handlePluginExecuted = () => {
+    // Refresh plugins data after execution to update the View Results button state
+    fetchPlugins(id);
   }
 
   return (
@@ -63,7 +77,7 @@ const ProjectDetail = () => {
           <ul className='plugin-list'>
             {plugins?.length > 0 && plugins.filter(p => p.type === 'INPUT')
               .map(plugin => (
-                <Plugin key={plugin.name} plugin={plugin} projectId={id} />
+                <Plugin key={plugin.name} plugin={plugin} projectId={id} onExecuted={handlePluginExecuted} />
               ))}
           </ul>
         </div>
@@ -72,11 +86,26 @@ const ProjectDetail = () => {
           <ul className="plugin-list">
             {plugins?.length > 0 && plugins.filter(p => p.type === 'OUTPUT')
               .map(plugin => (
-                <Plugin key={plugin.name} plugin={plugin} projectId={id} />
+                <Plugin key={plugin.name} plugin={plugin} projectId={id} onExecuted={handlePluginExecuted} />
               ))}
           </ul>
         </div>
       </div>
+
+      {/* Delete Confirmation Dialog */}
+      {showDeleteDialog && (
+        <div className="confirmation-dialog">
+          <div className="confirmation-dialog-content">
+            <h3>Confirm deletion</h3>
+            <p>Are you sure you want to delete the project <strong>{project.name}</strong>?</p>
+            <p>This action cannot be undone.</p>
+            <div className="confirmation-dialog-actions">
+              <button onClick={confirmDeleteProject} className="btn btn-danger">Delete</button>
+              <button onClick={cancelDeleteProject} className="btn btn-cancel">Cancel</button>
+            </div>
+          </div>
+        </div>
+      )}
     </>
   )
 }
