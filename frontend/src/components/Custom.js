@@ -18,7 +18,13 @@ const Custom = ({ data, config }) => {
 
     if (data.type === 'text' && data.text) {
       return (
-        <div className="custom-text-content" style={config?.style || {}}>
+        <div
+          className="custom-text-content"
+          style={{
+            whiteSpace: 'pre-wrap',
+            ...config?.style || {}
+          }}
+        >
           {data.text}
         </div>
       );

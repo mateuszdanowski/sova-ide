@@ -13,7 +13,7 @@ const D3Graph = ({ data, config }) => {
     const nodeRadius = config.nodeRadius || 5;
     const linkStrength = config.linkStrength || Math.sqrt(2);
 
-    const color = d3.scaleOrdinal(d3.schemeCategory10);
+    // const color = d3.scaleOrdinal(d3.schemeCategory10);
 
     const links = data.links.map(d => ({ ...d }));
     const nodes = data.nodes.map(d => ({ ...d }));
@@ -41,14 +41,20 @@ const D3Graph = ({ data, config }) => {
       .join("line")
       .attr("stroke-width", linkStrength);
 
+    const pageRank = true;
+
+    const badness = d3.scaleLinear().domain([-1, 300]).range(["green", "red"]).clamp(true);
+
+    const colore = d => badness(d["quality"]);
+
     const node = svg.append("g")
       .attr("stroke", "#fff")
       .attr("stroke-width", 1.5)
       .selectAll("circle")
       .data(nodes)
       .join("circle")
-      .attr("r", nodeRadius)
-      .attr("fill", color);
+      .attr("r", pageRank ? (d) => 3 + Math.max(2, 15 * d["pageRank"]) : nodeRadius)
+      .attr("fill", colore);
 
     node.append("title")
       .text(d => d.name);
