@@ -41,11 +41,11 @@ const D3Graph = ({ data, config }) => {
       .join("line")
       .attr("stroke-width", linkStrength);
 
-    const pageRank = true;
+    const pageRank = nodes[0]["pageRank"] !== undefined;
 
     const badness = d3.scaleLinear().domain([-1, 300]).range(["green", "red"]).clamp(true);
 
-    const colore = d => badness(d["quality"]);
+    const colore = pageRank ? d => badness(d["quality"]) : d3.scaleOrdinal(d3.schemeCategory10);;
 
     const node = svg.append("g")
       .attr("stroke", "#fff")
@@ -53,7 +53,7 @@ const D3Graph = ({ data, config }) => {
       .selectAll("circle")
       .data(nodes)
       .join("circle")
-      .attr("r", pageRank ? (d) => 3 + Math.max(2, 15 * d["pageRank"]) : nodeRadius)
+      .attr("r", pageRank ? (d) => 3 + Math.max(2, 10 * d["pageRank"]) : nodeRadius)
       .attr("fill", colore);
 
     node.append("title")
