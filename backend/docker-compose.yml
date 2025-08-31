@@ -6,6 +6,7 @@ services:
       - "7474:7474" # for Neo4j browser
     environment:
       - NEO4J_AUTH=neo4j/password
+      - NEO4J_PLUGINS=["graph-data-science"]
     volumes:
       - neo4j_data:/data
       - neo4j_logs:/logs

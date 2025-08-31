@@ -132,7 +132,7 @@ public class PluginManager {
 	private final Function<String, String> fileExtension = filename -> Optional.of(filename)
 			.filter(name -> name.contains("."))
 			.map(name -> name.substring(filename.lastIndexOf(".")))
-			.orElse(".jar");
+			.orElse(".txt");
 
 	private final BiFunction<String, MultipartFile, String> fileFunction = (id, file) -> {
 		String filename = id + fileExtension.apply(file.getOriginalFilename());
