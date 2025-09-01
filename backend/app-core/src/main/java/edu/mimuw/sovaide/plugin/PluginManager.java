@@ -192,17 +192,6 @@ public class PluginManager {
 							true, // now viewable
 							existingPlugin.stringInputs()
 					));
-				} else {
-					// Plugin has result but is not loaded - only viewable
-					pluginMap.put(pluginName, new PluginDTO(
-							pluginName,
-							"UNKNOWN", // type unknown for unloaded plugins
-							false, // accepting file unknown for unloaded plugins
-							result,
-							false, // not executable
-							true, // viewable
-							List.of()
-					));
 				}
 			});
 		}
