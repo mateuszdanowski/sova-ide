@@ -1,11 +1,13 @@
-import D3Graph from './D3Graph';
-import Custom from './Custom';
+import Graph from './Graph';
+import Text from './Text';
 import Table from "./Table";
 import BarChart from "./BarChart";
+import HTML from "./HTML";
 
 const pluginResultComponentRegistry = {
-  D3Graph,
-  Custom,
+  Graph,
+  Text,
+  HTML,
   Table,
   BarChart
   // More components can be added

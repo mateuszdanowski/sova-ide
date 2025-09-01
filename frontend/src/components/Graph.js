@@ -1,7 +1,7 @@
 import React, {useEffect, useRef} from 'react';
 import * as d3 from 'd3';
 
-const D3Graph = ({ data, config }) => {
+const Graph = ({ data, config }) => {
   const svgRef = useRef();
 
   useEffect(() => {
@@ -109,5 +109,5 @@ const D3Graph = ({ data, config }) => {
   );
 };
 
-export default D3Graph;
+export default Graph;
 

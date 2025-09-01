@@ -1,25 +1,15 @@
 import React, { useMemo } from 'react';
 
-const Custom = ({ data, config }) => {
+const Text = ({ data, config }) => {
   const content = useMemo(() => {
     if (!data) {
-      return <div className="custom-component-empty">No content provided</div>;
+      return <div className="text-component-empty">No content provided</div>;
     }
 
-    if (data.type === 'html' && data.html) {
+    if (data.text) {
       return (
         <div
-          className="custom-html-content"
-          dangerouslySetInnerHTML={{ __html: data.html }}
-          style={config?.style || {}}
-        />
-      );
-    }
-
-    if (data.type === 'text' && data.text) {
-      return (
-        <div
-          className="custom-text-content"
+          className="text-content"
           style={{
             whiteSpace: 'pre-wrap',
             ...config?.style || {}
@@ -31,7 +21,7 @@ const Custom = ({ data, config }) => {
     }
 
     return (
-      <div className="custom-component-fallback">
+      <div className="no-text-component">
         <pre>{JSON.stringify(data, null, 2)}</pre>
       </div>
     );
@@ -39,7 +29,7 @@ const Custom = ({ data, config }) => {
 
   return (
     <div
-      className="custom-component-wrapper"
+      className="text-component-wrapper"
       style={{
         padding: config?.padding || '10px',
         border: config?.border || 'none',
@@ -56,4 +46,4 @@ const Custom = ({ data, config }) => {
   );
 };
 
-export default Custom;
+export default Text;
