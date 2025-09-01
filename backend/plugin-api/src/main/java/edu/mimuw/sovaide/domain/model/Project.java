@@ -8,6 +8,10 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
+/**
+ * A 'Project' entity from the SOVA IDE data model.
+ * Represents a software project, including its files and plugin results executed on it.
+ */
 @Getter
 @Setter
 @NoArgsConstructor

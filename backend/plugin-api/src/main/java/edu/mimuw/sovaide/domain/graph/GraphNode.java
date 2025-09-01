@@ -5,6 +5,9 @@ import java.util.Map;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 
+/**
+ * Represents a node in the graph database, including its label and properties.
+ */
 @AllArgsConstructor
 @Getter
 public class GraphNode {

@@ -6,6 +6,10 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+/**
+ * A 'File' entity from the SOVA IDE data model.
+ * Represents a file in a project, including its path, kind, content, and contained entities.
+ */
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
