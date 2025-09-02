@@ -84,7 +84,7 @@ const BarChart = ({ data }) => {
       .attr('font-size', '12px')
       .attr('fill', '#333')
       .text(d => d.value);
-  }, [data]);
+  }, [barData, data]);
 
   if (!Array.isArray(barData) || barData.length === 0) {
     return <div>No data to display.</div>;

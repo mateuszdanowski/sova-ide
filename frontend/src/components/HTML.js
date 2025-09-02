@@ -1,4 +1,5 @@
 import React, { useMemo } from 'react';
+import DOMPurify from 'dompurify';
 
 const HTML = ({ data, config }) => {
   const content = useMemo(() => {
@@ -6,11 +7,23 @@ const HTML = ({ data, config }) => {
       return <div className="html-component-empty">No content provided</div>;
     }
 
+    // If data.html exists, sanitize it before rendering
     if (data.html) {
       return (
         <div
           className="custom-html-content"
-          dangerouslySetInnerHTML={{ __html: data.html }}
+          dangerouslySetInnerHTML={{ __html: DOMPurify.sanitize(data.html) }}
+          style={config?.style || {}}
+        />
+      );
+    }
+
+    // If data is a string, sanitize and render
+    if (typeof data === 'string') {
+      return (
+        <div
+          className="custom-html-content"
+          dangerouslySetInnerHTML={{ __html: DOMPurify.sanitize(data) }}
           style={config?.style || {}}
         />
       );
