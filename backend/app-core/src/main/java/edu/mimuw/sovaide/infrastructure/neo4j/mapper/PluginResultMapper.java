@@ -1,6 +1,6 @@
 package edu.mimuw.sovaide.infrastructure.neo4j.mapper;
 
-import edu.mimuw.sovaide.domain.plugin.GuiComponentData;
+import edu.mimuw.sovaide.domain.plugin.frontend.GuiComponentData;
 import edu.mimuw.sovaide.domain.plugin.PluginResult;
 import edu.mimuw.sovaide.infrastructure.neo4j.entity.Neo4jPluginResult;
 import com.fasterxml.jackson.databind.ObjectMapper;

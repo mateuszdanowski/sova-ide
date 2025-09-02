@@ -1,4 +1,4 @@
-package edu.mimuw.sovaide.domain.plugin;
+package edu.mimuw.sovaide.domain.plugin.frontend;
 
 import java.util.Map;
 

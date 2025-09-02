@@ -1,4 +1,4 @@
-package edu.mimuw.sovaide.domain.plugin;
+package edu.mimuw.sovaide.domain.plugin.frontend;
 
 /**
  * Defines the set of frontend component types currently supported in SOVA IDE.

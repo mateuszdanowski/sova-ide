@@ -1,5 +1,6 @@
 package edu.mimuw.sovaide.domain.plugin;
 
+import edu.mimuw.sovaide.domain.plugin.frontend.GuiComponentData;
 import lombok.Builder;
 
 /**
