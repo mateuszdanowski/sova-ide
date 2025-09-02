@@ -106,7 +106,7 @@ const Plugin = ({ plugin, projectId, onExecuted }) => {
     <li className="plugin-list-item">
       <div><b>Name:</b> {plugin.name}</div>
       <div className="plugin-action-row">
-        {/* Execute or Send file & Execute Button */}
+        {/* Execute button */}
         {plugin.acceptingFile ? (
           <>
             <button
@@ -114,7 +114,7 @@ const Plugin = ({ plugin, projectId, onExecuted }) => {
               onClick={() => fileInputRef.current && fileInputRef.current.click()}
               disabled={loading || !plugin.acceptingFile}
             >
-              {loading && plugin.acceptingFile ? 'Executing...' : 'Send file & Execute'}
+              {loading && plugin.acceptingFile ? 'Running...' : 'Execute'}
             </button>
             <input
               type="file"
@@ -129,7 +129,7 @@ const Plugin = ({ plugin, projectId, onExecuted }) => {
             onClick={handleExecute}
             disabled={loading || !plugin.executable}
           >
-            {loading && plugin.executable ? 'Executing...' : 'Execute'}
+            {loading && plugin.executable ? 'Running...' : 'Execute'}
           </button>
         )}
         {/* View Result Button */}
