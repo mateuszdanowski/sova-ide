@@ -13,8 +13,6 @@ const Graph = ({ data, config }) => {
     const nodeRadius = config.nodeRadius || 5;
     const linkStrength = config.linkStrength || Math.sqrt(2);
 
-    // const color = d3.scaleOrdinal(d3.schemeCategory10);
-
     const links = data.links.map(d => ({ ...d }));
     const nodes = data.nodes.map(d => ({ ...d }));
 
@@ -41,20 +39,15 @@ const Graph = ({ data, config }) => {
       .join("line")
       .attr("stroke-width", linkStrength);
 
-    const pageRank = nodes[0]["pageRank"] !== undefined;
-
     const badness = d3.scaleLinear().domain([-1, 300]).range(["green", "red"]).clamp(true);
-
-    const colore = pageRank ? d => badness(d["quality"]) : d3.scaleOrdinal(d3.schemeCategory10)(1);
-
     const node = svg.append("g")
       .attr("stroke", "#fff")
       .attr("stroke-width", 1.5)
       .selectAll("circle")
       .data(nodes)
       .join("circle")
-      .attr("r", pageRank ? (d) => 3 + Math.max(2, 10 * d["pageRank"]) : nodeRadius)
-      .attr("fill", colore);
+      .attr("r", (d) => d["size"] !== undefined ? 3 + Math.max(2, 10 * d["size"]) : nodeRadius)
+      .attr("fill", (d) => d["color"] !== undefined ? badness(d["color"]) : d3.scaleOrdinal(d3.schemeCategory10)(1));
 
     node.append("title")
       .text(d => d.name);
