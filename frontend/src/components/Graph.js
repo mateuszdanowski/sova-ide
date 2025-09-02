@@ -45,7 +45,7 @@ const Graph = ({ data, config }) => {
 
     const badness = d3.scaleLinear().domain([-1, 300]).range(["green", "red"]).clamp(true);
 
-    const colore = pageRank ? d => badness(d["quality"]) : d3.scaleOrdinal(d3.schemeCategory10);;
+    const colore = pageRank ? d => badness(d["quality"]) : d3.scaleOrdinal(d3.schemeCategory10)(1);
 
     const node = svg.append("g")
       .attr("stroke", "#fff")

@@ -105,8 +105,6 @@ const Plugin = ({ plugin, projectId, onExecuted }) => {
   return (
     <li className="plugin-list-item">
       <div><b>Name:</b> {plugin.name}</div>
-      <div><b>Type:</b> {plugin.type}</div>
-      <div><b>Accepting file:</b> {plugin.acceptingFile ? 'Yes' : 'No'}</div>
       <div className="plugin-action-row">
         {/* Execute or Send file & Execute Button */}
         {plugin.acceptingFile ? (

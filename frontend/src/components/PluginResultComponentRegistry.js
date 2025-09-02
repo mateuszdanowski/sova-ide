@@ -10,7 +10,7 @@ const pluginResultComponentRegistry = {
   HTML,
   Table,
   BarChart
-  // More components can be added
+  // More components can be added here
 };
 
 export default pluginResultComponentRegistry;
