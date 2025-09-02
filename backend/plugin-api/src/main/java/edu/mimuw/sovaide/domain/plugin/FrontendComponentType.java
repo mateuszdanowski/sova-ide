@@ -22,10 +22,6 @@ public enum FrontendComponentType {
      */
     Text,
     /**
-     * Creates a table from the provided data.
-     */
-    Table,
-    /**
      * Creates a horizontal bar chart from the provided data.
      */
     BarChart

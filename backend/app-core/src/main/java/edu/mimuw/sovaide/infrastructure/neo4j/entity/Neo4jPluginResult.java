@@ -21,5 +21,4 @@ public class Neo4jPluginResult {
 	private String projectId;
 	private String pluginName;
 	private String resultJson;
-	// todo keep plugin type for when the plugin is removed and GUI wants to still display its result
 }
