@@ -2,6 +2,7 @@ import React, { useRef, useState } from 'react';
 import { Link } from 'react-router-dom';
 import '../components/ProjectDetail.css';
 import '../components/Plugin.css';
+import { executePluginWithFile, executePluginWithProperties } from '../api/ProjectService';
 
 const Plugin = ({ plugin, projectId, onExecuted }) => {
   const fileInputRef = useRef(null);
@@ -30,19 +31,8 @@ const Plugin = ({ plugin, projectId, onExecuted }) => {
   const executeWithProperties = async (propertiesToSend) => {
     setLoading(true);
     setError(null);
-
     try {
-      const response = await fetch(
-        `http://localhost:8080/projects/${projectId}/plugins/execute?pluginName=${encodeURIComponent(plugin.name)}`,
-        {
-          method: 'POST',
-          headers: {
-            'Content-Type': 'application/json',
-          },
-          body: JSON.stringify(propertiesToSend),
-        }
-      );
-      if (!response.ok) throw new Error('Execution failed');
+      await executePluginWithProperties(projectId, plugin.name, propertiesToSend);
       if (onExecuted) onExecuted();
     } catch (e) {
       setError(e.message);
@@ -85,14 +75,7 @@ const Plugin = ({ plugin, projectId, onExecuted }) => {
     formData.append('file', e.target.files[0]);
     formData.append('pluginName', plugin.name);
     try {
-      const response = await fetch(
-        `http://localhost:8080/projects/${projectId}/plugins/execute-with-file`,
-        {
-          method: 'POST',
-          body: formData,
-        }
-      );
-      if (!response.ok) throw new Error('File execution failed');
+      await executePluginWithFile(projectId, formData);
       if (onExecuted) onExecuted();
     } catch (e) {
       setError(e.message);

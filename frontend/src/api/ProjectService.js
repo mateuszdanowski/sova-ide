@@ -22,9 +22,39 @@ export async function executePlugin(id) {
     return await axios.post(`${API_URL}/${id}/plugins/execute`);
 }
 
-// export async function uploadFile(formData) {
-//     return await axios.put(`${API_URL}/file`, formData);
-// }
+export async function executePluginWithFile(projectId, formData) {
+    try {
+      return await axios.post(
+          `${API_URL}/${projectId}/plugins/execute-with-file`,
+          formData,
+          {
+            headers: {
+              'Content-Type': 'multipart/form-data'
+            }
+          }
+        );
+    } catch (error) {
+        // Throw a more descriptive error message
+        throw new Error(error.response?.data?.message || 'File execution failed');
+    }
+}
+
+export async function executePluginWithProperties(projectId, pluginName, properties) {
+    try {
+      return await axios.post(
+          `${API_URL}/${projectId}/plugins/execute?pluginName=${encodeURIComponent(pluginName)}`,
+          properties,
+          {
+            headers: {
+              'Content-Type': 'application/json',
+            },
+          }
+        );
+    } catch (error) {
+        // Throw a more descriptive error message
+        throw new Error(error.response?.data?.message || 'Execution failed');
+    }
+}
 
 export async function deleteProject(id) {
     return await axios.delete(`${API_URL}/${id}`);

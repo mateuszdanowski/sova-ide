@@ -96,7 +96,7 @@ const Graph = ({ data, config }) => {
 
   return (
     <div style={{ border: '1px solid #ccc', padding: 16, marginTop: 16 }}>
-      <h4>D3Graph Visualization</h4>
+      <h4>Graph Visualization</h4>
       <svg ref={svgRef}></svg>
     </div>
   );
