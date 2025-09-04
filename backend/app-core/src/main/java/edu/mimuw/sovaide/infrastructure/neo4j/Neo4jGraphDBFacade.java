@@ -13,6 +13,8 @@ import org.neo4j.driver.GraphDatabase;
 import org.neo4j.driver.Record;
 import org.neo4j.driver.Result;
 import org.neo4j.driver.Session;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
 
 import edu.mimuw.sovaide.domain.graph.EdgeDirection;
 import edu.mimuw.sovaide.domain.graph.GraphDBFacade;
@@ -20,15 +22,22 @@ import edu.mimuw.sovaide.domain.graph.GraphEdge;
 import edu.mimuw.sovaide.domain.graph.GraphNode;
 import edu.mimuw.sovaide.infrastructure.neo4j.mapper.GraphEdgeMapper;
 import edu.mimuw.sovaide.infrastructure.neo4j.mapper.GraphNodeMapper;
+import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 
+@RequiredArgsConstructor
 @Slf4j
+@Component
 public class Neo4jGraphDBFacade implements GraphDBFacade, AutoCloseable {
-    private final Driver driver;
 
-    public Neo4jGraphDBFacade(String uri, String user, String password) {
-        this.driver = GraphDatabase.driver(uri, AuthTokens.basic(user, password));
-    }
+	@Autowired
+	private final Driver driver;
+
+	/* to be used in tests
+		public Neo4jGraphDBFacade(String uri, String user, String password) {
+			this.driver = GraphDatabase.driver(uri, AuthTokens.basic(user, password));
+		}
+	 */
 
     @Override
     public GraphNode createNode(String label, Map<String, Object> properties) {

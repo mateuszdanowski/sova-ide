@@ -1,11 +1,6 @@
 spring:
   application:
     name: sova-ide
-  neo4j:
-    uri: bolt://localhost:7687
-    authentication:
-      username: neo4j
-      password: password
   servlet:
     multipart:
       enabled: true

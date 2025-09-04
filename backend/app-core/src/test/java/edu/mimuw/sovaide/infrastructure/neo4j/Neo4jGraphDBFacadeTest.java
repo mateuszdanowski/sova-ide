@@ -26,6 +26,7 @@ class Neo4jGraphDBFacadeTest {
 
     private static Neo4jGraphDBFacade facade;
 
+	/*
     @BeforeAll
     static void setupClass() {
         facade = new Neo4jGraphDBFacade(
@@ -34,6 +35,7 @@ class Neo4jGraphDBFacadeTest {
                 "password"
         );
     }
+	 */
 
     @AfterAll
     static void tearDownClass() {
