@@ -20,8 +20,6 @@ public class Neo4jProjectGraphRepository implements ProjectRepository {
 
 	private final SpringDataNeo4jProjectGraphRepository projectRepository;
 
-	private final GraphDBFacade graphDBFacade;
-
 	@Override
 	public Project save(Project project) {
 		Neo4jProject neo4jProject = ProjectMapper.fromDomain(project);
@@ -44,9 +42,6 @@ public class Neo4jProjectGraphRepository implements ProjectRepository {
 
 	@Override
 	public void deleteById(String id) {
-		// first, delete all the nodes and relations associated with the project
-		graphDBFacade.deleteAllWithProperty("projectId", id);
-		// then delete the project node itself
 		projectRepository.deleteById(id);
 	}
 }

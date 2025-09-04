@@ -6,6 +6,7 @@ import java.util.List;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import edu.mimuw.sovaide.domain.graph.GraphDBFacade;
 import edu.mimuw.sovaide.domain.model.Project;
 import edu.mimuw.sovaide.domain.model.repository.ProjectRepository;
 import edu.mimuw.sovaide.domain.plugin.PluginResult;
@@ -18,6 +19,7 @@ import lombok.extern.slf4j.Slf4j;
 @RequiredArgsConstructor
 public class ProjectService {
 	private final ProjectRepository repository;
+	private final GraphDBFacade graphDBFacade;
 
 	public List<Project> getAllProjects() {
 		return repository.findAll();
@@ -52,6 +54,9 @@ public class ProjectService {
 	}
 
 	public void deleteProject(String id) {
+		// first, delete all the nodes and relations associated with the project
+		graphDBFacade.deleteAllWithProperty("projectId", id);
+		// then delete the project node itself
 		repository.deleteById(id);
 	}
 }
