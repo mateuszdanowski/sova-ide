@@ -65,7 +65,7 @@ public class ProjectResource {
 			@RequestParam("pluginName") String pluginName,
 			@RequestBody Map<String, String> properties
 	) {
-		System.out.println("Executing plugin " + pluginName + " for project " + projectId + " with properties" + properties);
+		System.out.println("Executing plugin " + pluginName + " for project " + projectId + " with properties " + properties);
 		pluginManager.execute(projectId, pluginName, properties);
 		return ResponseEntity.noContent().build();
 	}

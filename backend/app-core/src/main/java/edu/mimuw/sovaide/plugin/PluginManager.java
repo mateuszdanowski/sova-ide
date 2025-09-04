@@ -106,7 +106,7 @@ public class PluginManager {
 
 		log.info("Executing plugin {} with file {} for project {}", pluginName, fileUrl, projectId);
 		PluginResult result = plugin.execute(projectId, new DatabaseInterfaces(repository, graphDBFacade), new UserInput(localFilePath, Map.of()));
-		log.info("Plugin {} executed successfully with file {}", pluginName, fileUrl);
+		log.info("Plugin {} executed successfully for project {}", pluginName, projectId);
 
 		if (result != null) {
 			projectService.savePluginResult(result);
