@@ -40,3 +40,7 @@ tasks.named('test') {
 tasks.withType(JavaExec) {
 	jvmArgs += ['--add-opens', 'java.base/java.lang=ALL-UNNAMED']
 }
+
+springBoot {
+    mainClass = 'edu.mimuw.sovaide.Application'
+}
