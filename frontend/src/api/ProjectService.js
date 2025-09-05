@@ -34,7 +34,6 @@ export async function executePluginWithFile(projectId, formData) {
           }
         );
     } catch (error) {
-        // Throw a more descriptive error message
         throw new Error(error.response?.data?.message || 'File execution failed');
     }
 }
@@ -51,7 +50,6 @@ export async function executePluginWithProperties(projectId, pluginName, propert
           }
         );
     } catch (error) {
-        // Throw a more descriptive error message
         throw new Error(error.response?.data?.message || 'Execution failed');
     }
 }

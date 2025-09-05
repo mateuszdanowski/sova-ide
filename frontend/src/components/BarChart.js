@@ -1,5 +1,4 @@
 import React, { useRef, useEffect } from 'react';
-import PropTypes from 'prop-types';
 import * as d3 from 'd3';
 
 /**
@@ -91,10 +90,6 @@ const BarChart = ({ data }) => {
   }
 
   return <svg ref={svgRef} style={{ background: '#f9f9f9' }} />;
-};
-
-BarChart.propTypes = {
-  data: PropTypes.object.isRequired,
 };
 
 export default BarChart;
