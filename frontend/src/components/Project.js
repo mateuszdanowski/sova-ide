@@ -8,14 +8,6 @@ const Project = ({ project }) => {
                 <div className="project__file">
                     <p className="project_name">{project.name} </p>
                 </div>
-                <div className="project__body">
-                    <p>some body</p>
-                    {/*<p><i className="bi bi-info"></i> Number of classes: {project.noOfClasses} </p>*/}
-                    {/*<p><i className="bi bi-info"></i> Number of imports: {project.noOfImports} </p>*/}
-                    {/*<p><i className="bi bi-info"></i> AVG number of lines: {project.avgLinesOfCode} </p>*/}
-                    {/*<p>{project.status === 'ANALYZED' ? <i className="bi bi-check-circle"></i> :*/}
-                    {/*    <i className="bi bi-x-circle"></i>} {project.status} </p>*/}
-                </div>
             </div>
         </Link>
     )

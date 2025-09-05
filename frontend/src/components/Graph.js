@@ -8,8 +8,8 @@ const Graph = ({ data, config }) => {
     if (!data.links.length > 0 || !data.nodes.length > 0) {
       return
     }
-    const width = config.width || 928;
-    const height = config.height || 680;
+    const width = config.width || 1300;
+    const height = config.height || 900;
     const nodeRadius = config.nodeRadius || 5;
     const linkStrength = config.linkStrength || Math.sqrt(2);
 
